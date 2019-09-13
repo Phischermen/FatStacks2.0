@@ -301,35 +301,35 @@ public class Player : MonoBehaviour
         //Set drag
         _Rigidbody.drag = (IsFeatherFalling) ? (5.0f) : (0.0f);
         //Check for approaching collision
-        //RaycastHit hit_info;
-        //while (Physics.CapsuleCast(transform.position + _Collider.center + (Vector3.up * _Collider.height * 0.15f),
-        //        transform.position + _Collider.center + (Vector3.up * _Collider.height * -0.15f), _Collider.radius,
-        //        MoveVector.normalized, out hit_info, MoveVector.magnitude,
-        //        SolidLayerMask))
-        //{
-        //    //If normal has a significant y component, break the while loop
-        //    if (hit_info.normal.y > 0.5f)
-        //    {
-        //        break;
-        //    }
-        //    Vector3 hit_normal_perpendicular = Quaternion.AngleAxis(90f, Vector3.up) * hit_info.normal;
-        //    hit_normal_perpendicular *= (Vector3.Angle(hit_normal_perpendicular, MoveVector.normalized) > 90f) ? (-1) : (1);
-            
+        RaycastHit hit_info;
+        while (Physics.CapsuleCast(transform.position + _Collider.center + (Vector3.up * _Collider.height * 0.15f),
+                transform.position + _Collider.center + (Vector3.up * _Collider.height * -0.15f), _Collider.radius,
+                MoveVector.normalized, out hit_info, MoveVector.magnitude,
+                SolidLayerMask))
+        {
+            //If normal has a significant y component, break the while loop
+            if (hit_info.normal.y > 0.5f || !hit_info.transform.gameObject.isStatic)
+            {
+                break;
+            }
+            Vector3 hit_normal_perpendicular = Quaternion.AngleAxis(90f, Vector3.up) * hit_info.normal;
+            hit_normal_perpendicular *= (Vector3.Angle(hit_normal_perpendicular, MoveVector.normalized) > 90f) ? (-1) : (1);
 
-        //    //Calculate clamp
-        //    Vector3 hitDirection = (hit_info.point - transform.position);
-        //    hitDirection.y = 0;
-        //    hitDirection = hitDirection.normalized;
-        //    //Debug.DrawRay(transform.position, hitDirection, Color.magenta, 5f);
-        //    //float clamp = Vector3.Dot(MoveVector.normalized, hit_info.normal);
-        //    float clamp = Vector3.Dot(hitDirection, MoveVector.normalized);
-        //    clamp = (1f - Mathf.Abs(clamp)) * Mathf.Sign(clamp) * 1.2f;
 
-        //    MoveVector = hit_normal_perpendicular * Mathf.Sign(clamp) * MoveVector.magnitude * clamp;
-        //    MoveVector.y = 0;
+            //Calculate clamp
+            Vector3 hitDirection = (hit_info.point - transform.position);
+            hitDirection.y = 0;
+            hitDirection = hitDirection.normalized;
+            //Debug.DrawRay(transform.position, hitDirection, Color.magenta, 5f);
+            //float clamp = Vector3.Dot(MoveVector.normalized, hit_info.normal);
+            float clamp = Vector3.Dot(hitDirection, MoveVector.normalized);
+            clamp = (1f - Mathf.Abs(clamp)) * Mathf.Sign(clamp) * 1.2f;
 
-        //    //Debug.Log(move_vector);
-        //}
+            MoveVector = hit_normal_perpendicular * Mathf.Sign(clamp) * MoveVector.magnitude * clamp;
+            MoveVector.y = 0;
+
+            //Debug.Log(move_vector);
+        }
         //Manual Gravity
         if (_Rigidbody.useGravity == false)
         {

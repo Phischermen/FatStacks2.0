@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
-    public static MusicManager i;
+    public static MusicManager singleton;
 
     bool looped = false;
 
@@ -17,9 +17,9 @@ public class MusicManager : MonoBehaviour
     void Start()
     {
         source = GetComponent<AudioSource>();
-        if (!i)
+        if (!singleton)
         {
-            i = this;
+            singleton = this;
             DontDestroyOnLoad(gameObject);
         }
         else

@@ -25,7 +25,7 @@ public class TitleCardActions : MonoBehaviour
         yield return new WaitForSeconds(3f);
         yield return Fade(new CanvasRenderer[] { Logo.canvasRenderer, DinoDecaf.canvasRenderer }, 1f, false);
 
-        MusicManager.i.PlayTrack(drum);
+        MusicManager.singleton.PlayTrack(drum);
         MainMenu.SetActive(true);
         gameObject.SetActive(false);
     }

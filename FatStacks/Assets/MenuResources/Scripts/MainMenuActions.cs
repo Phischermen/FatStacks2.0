@@ -12,7 +12,7 @@ public class MainMenuActions : MonoBehaviour
     public void StartClicked()
     {
         SceneManager.LoadScene(startLevel);
-        MusicManager.i.SwitchTrack(theme);
+        MusicManager.singleton.SwitchTrack(theme);
     }
 
     public void QuitClicked()

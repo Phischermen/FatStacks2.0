@@ -11,18 +11,21 @@ public class TitleCardActions : MonoBehaviour
     public Image Logo;
     public MusicTrack drum;
 
+    private float timer = 0f;
     private IEnumerator Start()
     {
         //Display InMemory
         InMemory.gameObject.SetActive(true);
-        yield return new WaitForSeconds(3f);
+        timer = 0f;
+        yield return new WaitUntil(() => timer > 3f || Input.anyKey);
         yield return Fade(new CanvasRenderer[] { InMemory.canvasRenderer }, 1f, false);
 
         //Display Logo
         Logo.gameObject.SetActive(true);
         DinoDecaf.gameObject.SetActive(true);
         yield return Fade(new CanvasRenderer[] { Logo.canvasRenderer, DinoDecaf.canvasRenderer }, 1f, true);
-        yield return new WaitForSeconds(3f);
+        timer = 0f;
+        yield return new WaitUntil(() => timer > 3f || Input.anyKey);
         yield return Fade(new CanvasRenderer[] { Logo.canvasRenderer, DinoDecaf.canvasRenderer }, 1f, false);
 
         MusicManager.singleton.PlayTrack(drum);
@@ -40,5 +43,10 @@ public class TitleCardActions : MonoBehaviour
             }
             yield return new WaitForSeconds(time * 0.01f);
         }
+    }
+
+    private void Update()
+    {
+        timer += Time.deltaTime;
     }
 }

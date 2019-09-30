@@ -6,6 +6,7 @@ using UnityEngine;
 public class MainMenuActions : MonoBehaviour
 {
     public string startLevel;
+    public string artTestLevel;
     public GameObject settingsMenu;
     public MusicTrack theme;
 
@@ -13,6 +14,12 @@ public class MainMenuActions : MonoBehaviour
     {
         SceneManager.LoadScene(startLevel);
         MusicManager.singleton.SwitchTrack(theme);
+    }
+
+    public void ArtTestClicked()
+    {
+        SceneManager.LoadScene(artTestLevel);
+        MusicManager.singleton.PlayTrack(null);
     }
 
     public void QuitClicked()

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3929662818566243727}
   - component: {fileID: 6378777854899151401}
   m_Layer: 10
-  m_Name: WeaponPickup
+  m_Name: MatchGunPickup
   m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,14 +26,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6378777854899151400}
-  m_LocalRotation: {x: -0, y: -0.70529646, z: -0, w: -0.7089125}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.17, y: -0.47, z: 17.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1269816080111875826}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -270.293, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &2401718097868654717
 Animator:
   serializedVersion: 3
@@ -64,8 +64,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0298433, y: 0.5147841, z: 0.16340357}
-  m_Center: {x: -0.06404688, y: -0.0028589964, z: -0.0967994}
+  m_Size: {x: 1.1111147, y: 0.5147841, z: 0.16543397}
+  m_Center: {x: -0.023411632, y: -0.0028589964, z: -0.00028900802}
 --- !u!114 &6378777854899151401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,7 +80,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   current_prompt: 0
   _PromptData: {fileID: 11400000, guid: e7090001b12b6ee44ae7ab913c8966c6, type: 2}
-  isBusy: 1
   gun: 0
   ammo: 100
 --- !u!1 &6528153945427153003
@@ -109,7 +108,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6528153945427153003}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.06997681, y: 0, z: -0.09378619}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8748738346529558991}
@@ -148,6 +147,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

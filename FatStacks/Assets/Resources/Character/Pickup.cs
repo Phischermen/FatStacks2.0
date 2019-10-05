@@ -148,9 +148,13 @@ public class Pickup : MonoBehaviour
                         {
                             exception.FlashText("INVENTORY FULL", 2f);
                         }
+                        else if (box.GetBoxOnTopOfMe() != null)
+                        {
+
+                            exception.FlashText("BOX BLOCKED", 2f);
+                        }
                         else
                         {
-                            
                             PickupObject(box);
                         }
                     }

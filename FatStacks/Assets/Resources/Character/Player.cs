@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public static Player singleton;
+
     public bool doReadFromDataTracker = true;
     public HealthManager healthManager;
     private float DesiredSpeed = 10.0f;
@@ -63,6 +65,15 @@ public class Player : MonoBehaviour
         if (firstSpawnInScene)
             LatestScene = SceneManager.GetActiveScene();
         firstSpawnInScene = LatestScene != SceneManager.GetActiveScene();
+        //Setup singleton
+        if (!singleton)
+        {
+            singleton = this;
+        }
+        else
+        {
+            DestroyImmediate(gameObject);
+        }
         if (doReadFromDataTracker && FindObjectOfType<PlayerDataTracker>() != null)
         {
             Player me = this;

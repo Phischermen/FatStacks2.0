@@ -82,6 +82,7 @@ MonoBehaviour:
   _PromptData: {fileID: 11400000, guid: e7090001b12b6ee44ae7ab913c8966c6, type: 2}
   gun: 0
   ammo: 100
+  logEntry: Obtained the <b><color=green>Match</color> <color=blue>Gun</color></b>
 --- !u!1 &6528153945427153003
 GameObject:
   m_ObjectHideFlags: 0

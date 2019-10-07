@@ -17,10 +17,11 @@ public class MatchGun : Gun
             int count = boxs.Count;
             if (count >= 3)
             {
+                ComboSystem.IncrementComboAndAccumulateScore(10 * count, count);
                 if (count < 6)
                 {
                     playFireSound(0);
-                    //ammo -= 1;
+                    ammo -= 1;
                 }
                 else
                 {
@@ -37,6 +38,7 @@ public class MatchGun : Gun
             else
             {
                 playErrorSound(0);
+                ComboSystem.BreakCombo();
                 //Debug.Log("Group less than three");
             }
         }

@@ -6,6 +6,7 @@ public class WeaponPickup : Interaction
 {
     public ArsenalSystem.GunType gun;
     public int ammo;
+    public string logEntry;
 
     public override void Interact(Pickup pickup)
     {
@@ -16,6 +17,7 @@ public class WeaponPickup : Interaction
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
+            ItemLog.AddItem(logEntry);
             ArsenalSystem arsenal = other.gameObject.GetComponentInChildren<ArsenalSystem>();
             arsenal.AddGunToArsenalAndEquip(gun);
             arsenal.AddAmmoToGun(gun, ammo);

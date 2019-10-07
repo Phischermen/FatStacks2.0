@@ -35,11 +35,11 @@ public class TitleCardActions : MonoBehaviour
 
     private IEnumerator Fade(CanvasRenderer[] canvasRenderers, float time, bool fadeIn = true)
     {
-        for (float i = 0; i < 100; ++i)
+        for (float i = 100f; i > 0f; --i)
         {
             foreach(CanvasRenderer canvasRenderer in canvasRenderers)
             {
-                canvasRenderer.SetAlpha((fadeIn ? i : (100f - i)) / 100f);
+                canvasRenderer.SetAlpha(fadeIn ? i : i / 100f);
             }
             yield return new WaitForSeconds(time * 0.01f);
         }

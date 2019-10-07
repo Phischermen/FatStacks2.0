@@ -72,16 +72,21 @@ PrefabInstance:
       propertyPath: gun
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 6827837494664095584, guid: 4365ec882d349b5469a5cd550437bff0,
+    - target: {fileID: 6378777854899151401, guid: 4365ec882d349b5469a5cd550437bff0,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: d82b1685f6538d94383aa4b9007a6fad, type: 2}
+      propertyPath: logEntry
+      value: Obtained the <b><color=pink>Bazooka</color></b>
+      objectReference: {fileID: 0}
     - target: {fileID: 8594210771444912776, guid: 4365ec882d349b5469a5cd550437bff0,
         type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: -4882780386776197746, guid: 5218fa7866e8473448f5dfc9c446361f,
         type: 3}
+    - target: {fileID: 6827837494664095584, guid: 4365ec882d349b5469a5cd550437bff0,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d82b1685f6538d94383aa4b9007a6fad, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4365ec882d349b5469a5cd550437bff0, type: 3}

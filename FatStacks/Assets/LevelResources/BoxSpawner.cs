@@ -14,6 +14,7 @@ public class BoxSpawner : MonoBehaviour
     protected bool on;
     public int amount = 1;
     public bool isFinite;
+    public int seed;
 
     protected Coroutine coroutine;
 
@@ -37,7 +38,7 @@ public class BoxSpawner : MonoBehaviour
 
     protected virtual IEnumerator SpawnBox()
     {
-        System.Random random = new System.Random();
+        System.Random random = new System.Random(seed);
         while (on && amount > 0)
         {
             GameObject obj = Instantiate(pool[random.Next(pool.Length)].gameObject, transform.position, Quaternion.identity, boxGrid);

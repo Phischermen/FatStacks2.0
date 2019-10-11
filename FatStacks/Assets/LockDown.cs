@@ -26,10 +26,19 @@ public class LockDown : MonoBehaviour
         finishing
     }
 
-    private int boxCount;
+    public int originalBoxCount;
+    public int liveBoxCount;
+    public int boxReserveCount;
     private LockDownState state = LockDownState.idle;
-    private int spawnersBoxSupply = 0;
     private bool spawnersEmpty = false;
+
+    private void Start()
+    {
+        foreach (BoxSpawner spawner in spawners)
+        {
+            originalBoxCount += spawner.amount;
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -48,18 +57,19 @@ public class LockDown : MonoBehaviour
             switch (state)
             {
                 case LockDownState.doing:
-                    boxCount = boxGrid.childCount;
-                    spawnersEmpty = true;
+                    boxReserveCount = 0;
+                    liveBoxCount = boxGrid.childCount;
                     foreach (BoxSpawner spawner in spawners)
                     {
-                        if(spawner.amount > 0)
-                        {
-                            spawnersEmpty = false;
-                            break;
-                        }
+                        boxReserveCount += spawner.amount;
+                    }
+                    if (boxReserveCount == 0)
+                    {
+                        spawnersEmpty = true;
                     }
                     break;
             }
+            LockdownSystem.UpdateUI(this);
         }
     }
 
@@ -68,6 +78,8 @@ public class LockDown : MonoBehaviour
         //Queue Doors
         //Queue Lights
         onEnter.Invoke();
+        LockdownSystem.ShowUI();
+        LockdownSystem.UpdateUI(this);
         //Queue Music
         //MusicManager.singleton.PlayTrack(trackBuildUp);
         //Queue UI
@@ -76,12 +88,12 @@ public class LockDown : MonoBehaviour
         //Queue Spawners
         foreach(BoxSpawner spawner in spawners)
         {
-            spawnersBoxSupply += spawner.amount;
             spawner.TurnSpawnerOn();
         }
         state = LockDownState.doing;
-        yield return new WaitUntil(() => spawnersEmpty == true || boxCount > boxLimit); //Target reached or Player fails
+        yield return new WaitUntil(() => spawnersEmpty == true || liveBoxCount > boxLimit); //Target reached or Player fails
         state = LockDownState.finishing;
+        LockdownSystem.ShowUI(false);
         //if player fails
         //Queue GameOver
         //Stop Music

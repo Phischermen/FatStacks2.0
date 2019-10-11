@@ -17,10 +17,12 @@ public class BoxSpawner : MonoBehaviour
     public int seed;
 
     protected Coroutine coroutine;
+    protected System.Random random;
 
     // Start is called before the first frame update
     void Start()
     {
+        random = new System.Random(seed);
         TurnSpawnerOn(startActive);
     }
 
@@ -38,7 +40,6 @@ public class BoxSpawner : MonoBehaviour
 
     protected virtual IEnumerator SpawnBox()
     {
-        System.Random random = new System.Random(seed);
         while (on && amount > 0)
         {
             GameObject obj = Instantiate(pool[random.Next(pool.Length)].gameObject, transform.position, Quaternion.identity, boxGrid);

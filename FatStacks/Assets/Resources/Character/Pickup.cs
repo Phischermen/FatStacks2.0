@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class Pickup : MonoBehaviour
@@ -29,7 +30,7 @@ public class Pickup : MonoBehaviour
     private Interaction targetedItemInteraction;
     private Box targetedItemBox;
     [HideInInspector]
-    public GameObject carriedItem = null;
+    public Box carriedItem = null;
     public Stack<Box> carriedObjects = new Stack<Box>();
     public int carryObjectLimit;
     public BoxInventoryDisplay boxInventoryDisplay;
@@ -43,6 +44,7 @@ public class Pickup : MonoBehaviour
     //public MatchThreeGridDataStructure structure;
     public Fade prompt;
     public Fade exception;
+    public Text snapText;
     private int layerMaskPickup;
     private int layerMaskObstructed;
     private int layerMaskHide;
@@ -64,7 +66,11 @@ public class Pickup : MonoBehaviour
         Ray ray = new Ray(transform.position, transform.rotation * Vector3.forward);
         bool objectFound = Physics.Raycast(ray, out hitInfo, distanceMax, layerMaskPickup);
         if (Input.GetButtonDown("Snap"))
+        {
             snap = !snap;
+            snapText.text = (snap) ? "Snap: ON" : "Snap: OFF";
+        }
+            
         switch (currentPickupState)
         {
             case PickupState.noObjectTargeted:
@@ -179,7 +185,7 @@ public class Pickup : MonoBehaviour
 
             if (objectFound && hitInfo.distance <= distance)
             {
-                dropLocations[0] = hitInfo.point + (snap ? (hitInfo.normal * 0.5f) : Vector3.zero);
+                dropLocations[0] = hitInfo.point + (hitInfo.normal * 0.53f) - (snap ? Vector3.zero : carriedItem.centerLocalTransform);
                 dropCoords[0] = placementGrid.WorldToCell(dropLocations[0]);
                 Box box = hitInfo.transform.gameObject.GetComponent<Box>();
                 if (box != null)
@@ -195,7 +201,7 @@ public class Pickup : MonoBehaviour
             }
             else
             {
-                dropLocations[0] = transform.position + (transform.rotation * (Vector3.forward * distance));
+                dropLocations[0] = transform.position + (transform.rotation * (Vector3.forward * distance) - carriedItem.centerLocalTransform);
                 dropCoords[0] = placementGrid.WorldToCell(dropLocations[0]);
                 canDropAtCoords[1] = false;
                 showDrop[1] = false;
@@ -284,7 +290,7 @@ public class Pickup : MonoBehaviour
 
     public void PickupObject(Box lift)
     {
-        //carriedItem = obj;
+        carriedItem = lift;
         carriedObjects.Push(lift);
         boxInventoryDisplay.AddBox(lift.inventoryIcon);
         SetCarriedItemMeshMaterialAndRigidbody(lift);

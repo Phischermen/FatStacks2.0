@@ -11,7 +11,6 @@ public class BoxSpawnerWVelocity : BoxSpawner
 
     protected override IEnumerator SpawnBox()
     {
-        System.Random random = new System.Random();
         while (on && amount > 0)
         {
             GameObject obj = Instantiate(pool[random.Next(pool.Length)].gameObject, transform.position, Quaternion.identity, boxGrid);

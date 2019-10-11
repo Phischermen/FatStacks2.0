@@ -22,7 +22,7 @@ public class Box : MonoBehaviour
     private bool isBeingChecked = false;
     protected bool[] wasNeighborChecked = new bool[6];
     public float distanceCheck = 1.5f;
-    private Vector3 centerLocalTransform = new Vector3(0.5f, 0.5f, 0.5f);
+    public Vector3 centerLocalTransform = new Vector3(0.5f, 0.5f, 0.5f);
     [SerializeField]
     public Vector3[] neighborCoordEvaluatorLocalTransforms = new Vector3[8]
     {

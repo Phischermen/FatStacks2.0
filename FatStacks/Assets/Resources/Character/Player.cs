@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
     CapsuleCollider _Collider;
     public Camera _Camera;
     public Pickup myPickup;
+    public GameObject lockdownUI;
     private bool JumpPressed = false;
     private bool IsFeatherFalling;
     private Vector3 MoveVector;

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 using UnityEngine;
 
 public class Tutorial : MonoBehaviour
@@ -13,7 +14,7 @@ public class Tutorial : MonoBehaviour
     protected bool triggered = false;
     public bool ready = false;
     public bool done = false;
-    public Tutorial nextTutorial;
+    public UnityEvent onComplete;
 
     // Start is called before the first frame update
     public virtual void Start()
@@ -25,7 +26,6 @@ public class Tutorial : MonoBehaviour
         if (triggered == false && other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             TriggerTutorial();
-
         }
     }
     public virtual void TriggerTutorial()

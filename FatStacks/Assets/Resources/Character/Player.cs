@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     private Vector3 MoveVector;
     private Vector3 PrevMoveVector;
     private float HighestY;
+    private bool grounded;
     private int AdjacentColliderCount;
     private bool IsCrouched = false;
     private CrouchState _CrouchState = CrouchState.NotCrouched;
@@ -198,7 +199,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        bool grounded = checkGrounded();
+        grounded = checkGrounded();
         //Get jump input
         if (grounded)
         {
@@ -320,7 +321,7 @@ public class Player : MonoBehaviour
                 SolidLayerMask))
         {
             //If normal has a significant y component, break the while loop
-            if (hit_info.normal.y > 0.5f || !hit_info.transform.gameObject.isStatic)
+            if (hit_info.normal.y > 0.5f || (!hit_info.transform.gameObject.isStatic && grounded))
             {
                 break;
             }

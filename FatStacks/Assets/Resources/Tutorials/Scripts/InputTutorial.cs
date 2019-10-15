@@ -81,16 +81,11 @@ public class InputTutorial : Tutorial
             if(doneWhenAllInputPressed && allInputBeenPressed)
             {
                 done = true;
-                if(nextTutorial != null)
-                {
-                    nextTutorial.TriggerTutorial();
-                }
+                onComplete.Invoke();
                 
             }
             tutorialUITextFader.uiText.text = message;
         }
-            
-        
     }
 
     

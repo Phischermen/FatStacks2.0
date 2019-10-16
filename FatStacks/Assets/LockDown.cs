@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class LockDown : MonoBehaviour
 {
+    [Header("UI")]
+    public GameObject lockdownBackground;
+    public GameObject lockdownAnnounce;
+    public GameObject lockdownTutorial1;
+    public GameObject lockdownTutorial2;
     [Header("Box Sapwners")]
     public Transform boxGrid;
     public BoxSpawner[] spawners;
@@ -75,6 +80,7 @@ public class LockDown : MonoBehaviour
 
     IEnumerator StartLockDown()
     {
+        state = LockDownState.preping;
         //Queue Doors
         //Queue Lights
         onEnter.Invoke();
@@ -83,10 +89,23 @@ public class LockDown : MonoBehaviour
         //Queue Music
         //MusicManager.singleton.PlayTrack(trackBuildUp);
         //Queue UI
-        //TODO show UI that tells player that they are in a lockdown.
+        Player.singleton.UI.SetActive(false);
+        lockdownAnnounce.SetActive(true);
+        lockdownBackground.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        lockdownAnnounce.SetActive(false);
+        lockdownTutorial1.SetActive(true);
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        yield return new WaitForSeconds(0.1f);
+        lockdownTutorial1.SetActive(false);
+        lockdownTutorial2.SetActive(true);
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        lockdownTutorial2.SetActive(false);
+        lockdownBackground.SetActive(false);
+        Player.singleton.UI.SetActive(true);
         yield return new WaitForSeconds(3f);
         //Queue Spawners
-        foreach(BoxSpawner spawner in spawners)
+        foreach (BoxSpawner spawner in spawners)
         {
             spawner.TurnSpawnerOn();
         }

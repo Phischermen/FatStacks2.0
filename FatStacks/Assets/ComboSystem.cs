@@ -36,6 +36,13 @@ public class ComboSystem : MonoBehaviour
         singleton.scoreText.text = score.ToString();
     }
 
+    private void OnDisable()
+    {
+        StopCoroutine(comboCoroutine);
+        Score();
+        HideAndResetCombo();
+    }
+
     public static void IncrementComboAndAccumulateScore(int score, int boxes)
     {
         timer = comboTime;
@@ -48,6 +55,13 @@ public class ComboSystem : MonoBehaviour
         accumulatedBoxes += boxes;
         singleton.comboText.text = combo.ToString();
         singleton.accumulatedScoreText.text = string.Format(accumulatedScoreFormatString, accumulatedBoxes, accumulatedScore);
+    }
+
+    private static void Score()
+    {
+        score += accumulatedScore * combo;
+        singleton.scoreText.text = score.ToString();
+        Player.singleton.myPickup.gunController.AddAmmoToGun(ArsenalSystem.GunType.match, 1);
     }
 
     public static void BreakCombo()
@@ -72,9 +86,7 @@ public class ComboSystem : MonoBehaviour
             singleton.meter.fillAmount = timer / comboTime;
             yield return new WaitForSeconds(0.01f);
         }
-        score += accumulatedScore * combo;
-        singleton.scoreText.text = score.ToString();
-        Player.singleton.myPickup.gunController.AddAmmoToGun(ArsenalSystem.GunType.match, 1);
+        Score();
         HideAndResetCombo();
     }
 }

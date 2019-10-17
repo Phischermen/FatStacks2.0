@@ -10,11 +10,16 @@ public class Player : MonoBehaviour
 
     public bool doReadFromDataTracker = true;
     public HealthManager healthManager;
-    private float DesiredSpeed = 10.0f;
-    [HideInInspector]
-    public float WalkSpeed = 5f;
-    [HideInInspector]
-    public float SprintSpeed = 7.5f;
+    public float walkSpeed = 5f;
+    public float sprintSpeed = 7.5f;
+    public float accelerationWalk = 1f;
+    public float deaccelerationWalk = 1f;
+    public float accelerationAir = 1f;
+    public float deaccelerationAir = 1f;
+    public LayerMask solidLayerMask;
+    private Vector3 direction = Vector3.zero;
+    private Vector3 playerVelocity = Vector3.zero;
+    
     [HideInInspector]
     public float JumpForce = 5f;
     public GameObject DeadCharacter;
@@ -31,14 +36,11 @@ public class Player : MonoBehaviour
     public GameObject lockdownUI;
     private bool JumpPressed = false;
     private bool IsFeatherFalling;
-    private Vector3 MoveVector;
-    private Vector3 PrevMoveVector;
     private float HighestY;
     private bool grounded;
     private int AdjacentColliderCount;
     private bool IsCrouched = false;
     private CrouchState _CrouchState = CrouchState.NotCrouched;
-    private int SolidLayerMask;
     enum CrouchState
     {
         Crouched,
@@ -57,9 +59,6 @@ public class Player : MonoBehaviour
         _Rigidbody = GetComponent<Rigidbody>();
         _Collider = GetComponent<CapsuleCollider>();
         healthManager = GetComponent<HealthManager>();
-
-        //Get layer mask
-        SolidLayerMask = LayerMask.GetMask("Default", "InteractSolid");
     }
     private void Start()
     {
@@ -217,25 +216,33 @@ public class Player : MonoBehaviour
                 Debug.DrawRay(transform.position, Vector3.up, Color.blue, 10f);
             }
         }
-
-        //Get Sprint
-        DesiredSpeed = (Input.GetButton("Sprint")) ? (SprintSpeed) : (WalkSpeed);
         /*
         //Get Falling
         is_feather_falling = (my_rigidbody.velocity.y < 0 && Input.GetButton("Jump"));
         */
         //Get Move Input
-        MoveVector.z = Input.GetAxis("Vertical") * DesiredSpeed * Time.fixedDeltaTime;
-        MoveVector.x = Input.GetAxis("Horizontal") * DesiredSpeed * Time.fixedDeltaTime;
-        MoveVector = transform.localRotation * MoveVector;
-        MoveVector = Vector3.Lerp(PrevMoveVector, MoveVector, 0.2f);
-        MoveVector = Vector3.ClampMagnitude(MoveVector, DesiredSpeed * Time.fixedDeltaTime);
+        direction.z = Input.GetAxis("Vertical");
+        direction.x = Input.GetAxis("Horizontal");
+        // Set the desired direction of the player accordingly to the updated z and x axis variables
+        direction = transform.localRotation * direction;
+        direction = direction.normalized;
+        //Declare and set the target speed
+        Vector3 targetVelocity;
+        targetVelocity = direction * (Input.GetButton("Sprint") ? (sprintSpeed) : (walkSpeed));
+        //Get player velocity with y component set to zero.
+        Vector3 playerVelocityNoGravity = new Vector3(playerVelocity.x, 0, playerVelocity.z);
+        //Determine whether or not to accelerate
+        bool accelerate = Vector3.Dot(direction, playerVelocityNoGravity) > 0.8f;
+        //Calculate Velocity
+        float acceleration = grounded ? accelerationWalk : accelerationAir;
+        float deacceleration = grounded ? deaccelerationWalk : deaccelerationAir;
+        playerVelocity = Vector3.Lerp(playerVelocity, targetVelocity, (accelerate ? acceleration : deacceleration) * Time.deltaTime);
         //Get Crouch Input
         if (Input.GetButtonDown("Crouch"))
         {
             if (IsCrouched)
             {
-                if (!Physics.CheckSphere(transform.position + new Vector3(0f, 0.5f, 0f), _Collider.radius - 0.1f, SolidLayerMask))
+                if (!Physics.CheckSphere(transform.position + new Vector3(0f, 0.5f, 0f), _Collider.radius - 0.1f, solidLayerMask))
                 {
                     SetCrouchState(false);
                 }
@@ -318,8 +325,8 @@ public class Player : MonoBehaviour
         RaycastHit hit_info;
         while (Physics.CapsuleCast(transform.position + _Collider.center + (Vector3.up * _Collider.height * 0.15f),
                 transform.position + _Collider.center + (Vector3.up * _Collider.height * -0.15f), _Collider.radius,
-                MoveVector.normalized, out hit_info, MoveVector.magnitude,
-                SolidLayerMask))
+                playerVelocity.normalized, out hit_info, playerVelocity.magnitude,
+                solidLayerMask))
         {
             //If normal has a significant y component, break the while loop
             if (hit_info.normal.y > 0.5f || (!hit_info.transform.gameObject.isStatic && grounded))
@@ -327,7 +334,7 @@ public class Player : MonoBehaviour
                 break;
             }
             Vector3 hit_normal_perpendicular = Quaternion.AngleAxis(90f, Vector3.up) * hit_info.normal;
-            hit_normal_perpendicular *= (Vector3.Angle(hit_normal_perpendicular, MoveVector.normalized) > 90f) ? (-1) : (1);
+            hit_normal_perpendicular *= (Vector3.Angle(hit_normal_perpendicular, playerVelocity.normalized) > 90f) ? (-1) : (1);
 
 
             //Calculate clamp
@@ -336,11 +343,11 @@ public class Player : MonoBehaviour
             hitDirection = hitDirection.normalized;
             //Debug.DrawRay(transform.position, hitDirection, Color.magenta, 5f);
             //float clamp = Vector3.Dot(MoveVector.normalized, hit_info.normal);
-            float clamp = Vector3.Dot(hitDirection, MoveVector.normalized);
+            float clamp = Vector3.Dot(hitDirection, playerVelocity.normalized);
             clamp = (1f - Mathf.Abs(clamp)) * Mathf.Sign(clamp) * 1.2f;
 
-            MoveVector = hit_normal_perpendicular * Mathf.Sign(clamp) * MoveVector.magnitude * clamp;
-            MoveVector.y = 0;
+            playerVelocity = hit_normal_perpendicular * Mathf.Sign(clamp) * playerVelocity.magnitude * clamp;
+            playerVelocity.y = 0;
 
             //Debug.Log(move_vector);
         }
@@ -350,12 +357,11 @@ public class Player : MonoBehaviour
             _Rigidbody.AddForce(Vector3.down * 9.81f, ForceMode.Impulse);
         }
         //Translate the player
-        _Rigidbody.MovePosition(_Rigidbody.position + MoveVector);
-        PrevMoveVector = MoveVector;
+        _Rigidbody.MovePosition(_Rigidbody.position + playerVelocity);
     }
     private bool checkGrounded()
     {
-        return Physics.CheckSphere(transform.position + new Vector3(0, -1.06f, 0), 0.475f, SolidLayerMask);
+        return Physics.CheckSphere(transform.position + new Vector3(0, -1.06f, 0), 0.475f, solidLayerMask);
     }
     public void SetCrouchState(bool crouched, bool instant = false)
     {

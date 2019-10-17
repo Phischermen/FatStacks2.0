@@ -405,8 +405,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doReadFromDataTracker: 1
   healthManager: {fileID: 0}
-  WalkSpeed: 5
-  SprintSpeed: 7.5
+  walkSpeed: 0.09
+  sprintSpeed: 0.13
+  accelerationWalk: 6.5
+  deaccelerationWalk: 8.5
+  accelerationAir: 3
+  deaccelerationAir: 1
+  solidLayerMask:
+    serializedVersion: 2
+    m_Bits: 1025
   JumpForce: 5
   DeadCharacter: {fileID: 1562780751652856, guid: c4cc06a1033218b4fae623fa0d2ea3e0,
     type: 3}

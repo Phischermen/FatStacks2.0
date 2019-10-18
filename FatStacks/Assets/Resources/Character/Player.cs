@@ -142,7 +142,7 @@ public class Player : MonoBehaviour
         else if (point > (transform.position.y + 0.8f))
         {
             Box obj = collision.gameObject.GetComponent<Box>();
-            Debug.Log(Vector3.Dot(collision.rigidbody.velocity.normalized, Vector3.down));
+            //Debug.Log(Vector3.Dot(collision.rigidbody.velocity.normalized, Vector3.down));
             if (obj != null && obj.Frozen == false && Vector3.Dot(collision.rigidbody.velocity.normalized,Vector3.down) > 0.1f)
             {
                 //Possibly Crushed
@@ -344,7 +344,8 @@ public class Player : MonoBehaviour
             //Debug.DrawRay(transform.position, hitDirection, Color.magenta, 5f);
             //float clamp = Vector3.Dot(MoveVector.normalized, hit_info.normal);
             float clamp = Vector3.Dot(hitDirection, playerVelocity.normalized);
-            clamp = (1f - Mathf.Abs(clamp)) * Mathf.Sign(clamp) * 1.2f;
+            clamp = (1f - Mathf.Abs(clamp)) * Mathf.Sign(clamp);
+            clamp = Mathf.Clamp(clamp * 1.2f, -1f, 1f);
 
             playerVelocity = hit_normal_perpendicular * Mathf.Sign(clamp) * playerVelocity.magnitude * clamp;
             playerVelocity.y = 0;

@@ -26,6 +26,13 @@ public class Fade : MonoBehaviour
         canvasRenderer = GetComponent<CanvasRenderer>();
         state = prompt_state.faded_out;
     }
+    private void OnEnable()
+    {
+        if (canvasRenderer)
+        {
+            canvasRenderer.SetAlpha(alpha);
+        }
+    }
     private void Update()
     {
         if (state == prompt_state.fading_in)

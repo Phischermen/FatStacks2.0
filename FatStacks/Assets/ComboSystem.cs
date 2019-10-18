@@ -38,7 +38,10 @@ public class ComboSystem : MonoBehaviour
 
     private void OnDisable()
     {
-        StopCoroutine(comboCoroutine);
+        if (comboCoroutine != null)
+        {
+            StopCoroutine(comboCoroutine);
+        }
         Score();
         HideAndResetCombo();
     }

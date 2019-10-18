@@ -6,6 +6,7 @@ public class Interaction : MonoBehaviour {
 
     public int current_prompt = 0;
     public PromptData _PromptData;
+    [SerializeField]
     protected bool isBusy = false;
 
     public virtual void Interact(Pickup pickup)

@@ -84,8 +84,6 @@ public class LockDown : MonoBehaviour
         //Queue Doors
         //Queue Lights
         onEnter.Invoke();
-        LockdownSystem.ShowUI();
-        LockdownSystem.UpdateUI(this);
         //Queue Music
         //MusicManager.singleton.PlayTrack(trackBuildUp);
         //Queue UI
@@ -95,11 +93,11 @@ public class LockDown : MonoBehaviour
         yield return new WaitForSeconds(3f);
         lockdownAnnounce.SetActive(false);
         lockdownTutorial1.SetActive(true);
-        yield return new WaitUntil(() => Input.anyKeyDown);
+        yield return new WaitUntil(() => Input.GetButtonDown("Interact/Pickup"));
         yield return new WaitForSeconds(0.1f);
         lockdownTutorial1.SetActive(false);
         lockdownTutorial2.SetActive(true);
-        yield return new WaitUntil(() => Input.anyKeyDown);
+        yield return new WaitUntil(() => Input.GetButtonDown("Interact/Pickup"));
         lockdownTutorial2.SetActive(false);
         lockdownBackground.SetActive(false);
         Player.singleton.UI.SetActive(true);
@@ -109,6 +107,9 @@ public class LockDown : MonoBehaviour
         {
             spawner.TurnSpawnerOn();
         }
+        //Show Lockdown UI
+        LockdownSystem.ShowUI();
+        LockdownSystem.UpdateUI(this);
         state = LockDownState.doing;
         yield return new WaitUntil(() => spawnersEmpty == true || liveBoxCount > boxLimit); //Target reached or Player fails
         state = LockDownState.finishing;

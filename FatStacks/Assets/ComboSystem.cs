@@ -69,6 +69,10 @@ public class ComboSystem : MonoBehaviour
 
     public static void BreakCombo()
     {
+        if (combo == 0)
+        {
+            return;
+        }
         singleton.StopCoroutine(comboCoroutine);
         Player.singleton.myPickup.gunController.AddAmmoToGun(ArsenalSystem.GunType.match, 1);
         HideAndResetCombo();

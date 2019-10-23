@@ -7,6 +7,8 @@ public class Box : MonoBehaviour
 {
     public BoxData boxData;
     public GameObject inventoryIcon;
+    public Color color;
+    public Sprite icon;
 
     [HideInInspector]
     public Grid _Grid;

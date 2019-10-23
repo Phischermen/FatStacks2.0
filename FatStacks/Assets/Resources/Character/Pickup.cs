@@ -37,6 +37,7 @@ public class Pickup : MonoBehaviour
     private bool wasPickupPressed;
     private bool wasDropOnStackPressed;
     private Rigidbody itemRigidbody;
+    public PickupPreview[] placementPreviews;
     private Mesh carriedItemMesh;
     private Material carriedItemMaterial;
     [HideInInspector]
@@ -93,7 +94,6 @@ public class Pickup : MonoBehaviour
                             targetedItemBox = targetedObject.GetComponent<Box>();
                             busy = false;
                             prompt.fadeInText("LIFT");
-                            
                             break;
                         default:
                             break;
@@ -206,7 +206,18 @@ public class Pickup : MonoBehaviour
                 canDropAtCoords[1] = false;
                 showDrop[1] = false;
             }
-
+            //Set pickup preview materials
+            if(!canDropAtCoords[1] || dropCoords[0] == dropCoords[1])
+            {
+                placementPreviews[0].SetPreview(carriedItem, PickupPreview.Prompt.r);
+                showDrop[1] = false;
+            }
+            else
+            {
+                placementPreviews[0].SetPreview(carriedItem, PickupPreview.Prompt.r);
+                placementPreviews[1].SetPreview(carriedItem, PickupPreview.Prompt.g);
+            }
+            
             //Convert back to world space
             for (int i = 0; i < dropCoords.Length; ++i)
             {
@@ -220,17 +231,26 @@ public class Pickup : MonoBehaviour
                 MaterialPropertyBlock properties = new MaterialPropertyBlock();
                 if (showDrop[i])
                 {
+                    placementPreviews[i].gameObject.SetActive(true);
                     if (canDropAtCoords[i])
                     {
                         prompt.fadeInText("PLACE");
-                        properties.SetColor("_Color", new Color(0.7f, 0.89f, 1f, 0.75f));
+                        placementPreviews[i].SetValid(true);
+                        //properties.SetColor("_Color", new Color(0.7f, 0.89f, 1f, 0.75f));
                     }
                     else
                     {
                         prompt.fadeOutText();
-                        properties.SetColor("_Color", new Color(1f, 0.89f, 0.7f, 0.75f));
+                        placementPreviews[i].SetValid(false);
+                        //properties.SetColor("_Color", new Color(1f, 0.89f, 0.7f, 0.75f));
                     }
-                    Graphics.DrawMesh(carriedItemMesh, dropLocations[i], Quaternion.identity, carriedItemMaterial, 0, GetComponent<Camera>(), 0, properties, false);
+                    placementPreviews[i].gameObject.transform.position = dropLocations[i];
+                    placementPreviews[i].gameObject.transform.rotation = Quaternion.identity;
+                    //Graphics.DrawMesh(carriedItemMesh, dropLocations[i], Quaternion.identity, carriedItemMaterial, 0, GetComponent<Camera>(), 0, properties, false);
+                }
+                else
+                {
+                    placementPreviews[i].gameObject.SetActive(false);
                 }
             }
             if ((Input.GetButtonDown("Drop") || (Input.GetButtonDown("DropOnStack") && !canDropAtCoords[1])) && canDropAtCoords[0])
@@ -241,6 +261,11 @@ public class Pickup : MonoBehaviour
             {
                 DropObject(dropLocations[1], Quaternion.identity);
             }
+        }
+        else
+        {
+            placementPreviews[0].gameObject.SetActive(false);
+            placementPreviews[1].gameObject.SetActive(false);
         }
         
         
@@ -305,10 +330,13 @@ public class Pickup : MonoBehaviour
 
     public void DropObject(Vector3 location, Quaternion rotation)
     {
+        placementPreviews[0].gameObject.SetActive(false);
+        placementPreviews[1].gameObject.SetActive(false);
         Box droppedItem = carriedObjects.Pop();
         boxInventoryDisplay.RemoveBox();
-        if(carriedObjects.Count > 0)
-            SetCarriedItemMeshMaterialAndRigidbody(carriedObjects.Peek());
+        if (carriedObjects.Count > 0)
+            carriedItem = carriedObjects.Peek();
+            //SetCarriedItemMeshMaterialAndRigidbody(carriedObjects.Peek());
         //Transfering object to another grid.
         if (droppedItem._Grid != placementGrid)
         {

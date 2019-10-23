@@ -27,6 +27,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6182747195729085089, guid: e24db74cf33201e4c88ecde4c5661021,
         type: 3}
+    - target: {fileID: 114846787503128036, guid: 8eb9b5a0230aaba4cbc0f53901cf6d78,
+        type: 3}
+      propertyPath: color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114846787503128036, guid: 8eb9b5a0230aaba4cbc0f53901cf6d78,
+        type: 3}
+      propertyPath: icon
+      value: 
+      objectReference: {fileID: 21300000, guid: 6b27428509807b34695ac11d25291e68,
+        type: 3}
+    - target: {fileID: 114846787503128036, guid: 8eb9b5a0230aaba4cbc0f53901cf6d78,
+        type: 3}
+      propertyPath: color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 23588244874325878, guid: 8eb9b5a0230aaba4cbc0f53901cf6d78,
         type: 3}
       propertyPath: m_Materials.Array.data[0]

@@ -22,7 +22,7 @@ public class StartBossFightTrigger : MonoBehaviour
             Wall.SetActive(true);
             notTriggered = false;
             if(MusicManager.singleton != null)
-                MusicManager.singleton.SwitchTrack(bossFightMusic, true);
+                MusicManager.singleton.ChangeTrack(bossFightMusic);
         }
 
         //Destroy(gameObject);

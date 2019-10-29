@@ -72,6 +72,14 @@ public class LockDown : MonoBehaviour
                     {
                         spawnersEmpty = true;
                     }
+                    if (MusicManager.singleton.currTrack == trackNormal && ((float)liveBoxCount / (float)boxLimit) > 0.75f)
+                    {
+                        MusicManager.singleton.ChangeTrack(trackCloseCall);
+                    }
+                    else if (MusicManager.singleton.currTrack == trackCloseCall && ((float)liveBoxCount / (float)boxLimit) < 0.75f)
+                    {
+                        MusicManager.singleton.ChangeTrack(trackNormal);
+                    }
                     break;
             }
             LockdownSystem.UpdateUI(this);
@@ -88,6 +96,7 @@ public class LockDown : MonoBehaviour
         //MusicManager.singleton.PlayTrack(trackBuildUp);
         //Queue UI
         Player.singleton.UI.SetActive(false);
+        MusicManager.singleton.PlayTrack(trackBuildUp);
         lockdownAnnounce.SetActive(true);
         lockdownBackground.SetActive(true);
         yield return new WaitForSeconds(3f);
@@ -102,6 +111,7 @@ public class LockDown : MonoBehaviour
         lockdownBackground.SetActive(false);
         Player.singleton.UI.SetActive(true);
         yield return new WaitForSeconds(3f);
+        MusicManager.singleton.QueueUpNextTrack(trackNormal);
         //Queue Spawners
         foreach (BoxSpawner spawner in spawners)
         {
@@ -122,5 +132,6 @@ public class LockDown : MonoBehaviour
         //Unlock doors
         //Restore lights, music, doors etc.
         onComplete.Invoke();
+        MusicManager.singleton.QueueUpNextTrack(null);
     }
 }

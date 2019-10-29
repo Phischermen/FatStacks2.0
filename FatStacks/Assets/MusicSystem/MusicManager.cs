@@ -6,17 +6,31 @@ public class MusicManager : MonoBehaviour
 {
     public static MusicManager singleton;
 
-    bool looped = false;
+    private bool ignore = false;
+    private bool endMusic;
 
-    MusicTrack currTrack = null;
-    MusicTrack nextTrack = null;
+    public MusicTrack currTrack { get; private set; } = null;
+    public MusicTrack nextTrack { get; private set; } = null;
 
-    private AudioSource source;
+    AmbiantTrack currAmbiance = null;
 
+    private Coroutine musicRoutine;
+    private Coroutine ambianceRoutine;
+
+    [SerializeField]
+    private AudioSource musicSource;
+    [SerializeField]
+    private AudioSource ambiantSource;
+
+    public enum TrackVariant
+    {
+        cut,
+        overlap,
+        tail
+    }
     // Start is called before the first frame update
     void Start()
     {
-        source = GetComponent<AudioSource>();
         if (!singleton)
         {
             singleton = this;
@@ -30,51 +44,142 @@ public class MusicManager : MonoBehaviour
 
     public void PlayTrack(MusicTrack track)
     {
+        musicSource.Stop();
         currTrack = track;
-        StartCoroutine(ManageMusic());
+        if (musicRoutine != null)
+            StopCoroutine(musicRoutine);
+        musicRoutine = StartCoroutine(ManageMusic());
+    }
+
+    public void QueueUpNextTrack(MusicTrack track)
+    {
+        nextTrack = track;
+        if (track == null)
+        {
+            //Get music to stop
+            endMusic = true;
+            ChangeTrack(currTrack, TrackVariant.tail);
+        }
+    }
+
+    public void ChangeTrack(MusicTrack track, TrackVariant trackVariant = TrackVariant.overlap)
+    {
+        if (musicSource.isPlaying)
+        {
+            int startTime = musicSource.timeSamples;
+            currTrack = track;
+            AudioClip clip;
+            switch (trackVariant)
+            {
+                case TrackVariant.cut:
+                    clip = track.cut;
+                    break;
+                case TrackVariant.overlap:
+                    clip = track.overlap;
+                    break;
+                case TrackVariant.tail:
+                    clip = track.tail;
+                    break;
+            }
+            musicSource.clip = track.overlap;
+            musicSource.timeSamples = startTime;
+            ignore = true;
+        }
+        else
+        {
+            Debug.Log("Could not change music track because source was not playing.");
+        }
+    }
+
+    public void PlayAmbiance(AmbiantTrack track)
+    {
+        musicSource.Stop();
+        currAmbiance = track;
+        if (ambianceRoutine != null)
+            StopCoroutine(ambianceRoutine);
+        ambianceRoutine = StartCoroutine(ManageAmbiance());
+    }
+
+    public void ChangeAmbiance(AmbiantTrack track)
+    {
+        if (ambiantSource.isPlaying)
+        {
+            int startTime = ambiantSource.timeSamples;
+            currAmbiance = track;
+            ambiantSource.clip = track.clip;
+            ambiantSource.timeSamples = startTime;
+        }
+        else
+        {
+            Debug.Log("Could not change ambiant track because source was not playing.");
+        }
     }
 
     public IEnumerator ManageMusic()
     {
+        bool looped = false;
         while (true)
         {
-            yield return new WaitUntil(() => source.isPlaying == false);
-            if (nextTrack != null)
+            yield return new WaitUntil(() => musicSource.isPlaying == false);
+            if (!ignore)
             {
-                source.clip = nextTrack.cut;
-                looped = false;
-                currTrack = nextTrack;
-                nextTrack = null;
-            }
-            else
-            {
-                if(looped == false)
+                if (nextTrack != null)
                 {
-                    source.clip = currTrack.cut;
+                    musicSource.clip = nextTrack.cut;
+                    looped = false;
+                    currTrack = nextTrack;
+                    nextTrack = null;
                 }
                 else
                 {
-                    source.clip = currTrack.overlap;
+                    if (looped == false)
+                    {
+                        musicSource.clip = currTrack.cut;
+                    }
+                    else
+                    {
+                        musicSource.clip = currTrack.overlap;
+                    }
+                    looped = true;
+                    musicSource.timeSamples = 0;
                 }
-                looped = true;
             }
-
-            source.Play();
+            ignore = false;
+            musicSource.Play();
         }
     }
 
-    public void SwitchTrack(MusicTrack track, bool immediate = false)
+    public IEnumerator ManageAmbiance()
     {
-        if (immediate)
+        bool looped = false;
+        while (true)
         {
-            float startTime = source.time;
-            currTrack = track;
-            source.clip = track.overlap;
-            source.time = startTime;
-        }
-        else
-        {
-            nextTrack = track;
+            yield return new WaitUntil(() => ambiantSource.isPlaying == false);
+            if (!ignore)
+            {
+                if (nextTrack != null)
+                {
+                    ambiantSource.clip = nextTrack.cut;
+                    looped = false;
+                    currTrack = nextTrack;
+                    nextTrack = null;
+                }
+                else
+                {
+                    if (looped == false)
+                    {
+                        ambiantSource.clip = currTrack.cut;
+                    }
+                    else
+                    {
+                        ambiantSource.clip = currTrack.overlap;
+                    }
+                    looped = true;
+                    ambiantSource.timeSamples = 0;
+                }
+            }
+            ignore = false;
+            ambiantSource.Play();
         }
     }
 }

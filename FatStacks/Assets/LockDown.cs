@@ -72,11 +72,11 @@ public class LockDown : MonoBehaviour
                     {
                         spawnersEmpty = true;
                     }
-                    if (MusicManager.singleton.currTrack == trackNormal && ((float)liveBoxCount / (float)boxLimit) > 0.75f)
+                    if (MusicManager.singleton.currTrack == trackNormal && ((float)liveBoxCount / (float)boxLimit) > 0.6f)
                     {
                         MusicManager.singleton.ChangeTrack(trackCloseCall);
                     }
-                    else if (MusicManager.singleton.currTrack == trackCloseCall && ((float)liveBoxCount / (float)boxLimit) < 0.75f)
+                    else if (MusicManager.singleton.currTrack == trackCloseCall && ((float)liveBoxCount / (float)boxLimit) < 0.6f)
                     {
                         MusicManager.singleton.ChangeTrack(trackNormal);
                     }

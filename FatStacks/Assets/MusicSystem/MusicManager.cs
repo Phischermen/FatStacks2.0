@@ -68,7 +68,7 @@ public class MusicManager : MonoBehaviour
         {
             int startTime = musicSource.timeSamples;
             currTrack = track;
-            AudioClip clip;
+            AudioClip clip = null;
             switch (trackVariant)
             {
                 case TrackVariant.cut:
@@ -81,7 +81,7 @@ public class MusicManager : MonoBehaviour
                     clip = track.tail;
                     break;
             }
-            musicSource.clip = track.overlap;
+            musicSource.clip = clip;
             musicSource.timeSamples = startTime;
             ignore = true;
         }
@@ -93,7 +93,7 @@ public class MusicManager : MonoBehaviour
 
     public void PlayAmbiance(AmbiantTrack track)
     {
-        musicSource.Stop();
+        ambiantSource.Stop();
         currAmbiance = track;
         if (ambianceRoutine != null)
             StopCoroutine(ambianceRoutine);
@@ -145,6 +145,11 @@ public class MusicManager : MonoBehaviour
                 }
             }
             ignore = false;
+            if (endMusic)
+            {
+                endMusic = false;
+                StopCoroutine(musicRoutine);
+            }
             musicSource.Play();
         }
     }
@@ -159,20 +164,18 @@ public class MusicManager : MonoBehaviour
             {
                 if (nextTrack != null)
                 {
-                    ambiantSource.clip = nextTrack.cut;
+                    ambiantSource.clip = ambiantSource.clip;
                     looped = false;
-                    currTrack = nextTrack;
-                    nextTrack = null;
                 }
                 else
                 {
                     if (looped == false)
                     {
-                        ambiantSource.clip = currTrack.cut;
+                        ambiantSource.clip = currAmbiance.clip;
                     }
                     else
                     {
-                        ambiantSource.clip = currTrack.overlap;
+                        ambiantSource.clip = currAmbiance.clip;
                     }
                     looped = true;
                     ambiantSource.timeSamples = 0;

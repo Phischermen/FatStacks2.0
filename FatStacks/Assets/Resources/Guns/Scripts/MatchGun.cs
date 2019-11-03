@@ -30,7 +30,7 @@ public class MatchGun : Gun
                 //Debug.Log("Group greater than or equal to three");
                 foreach (Box item in boxs)
                 {
-                    //Instantiate(item._BoxMaterials.destructionPrefab[(int)item.match3_group_id], item.transform.position,Quaternion.identity);
+                    Instantiate(item.boxData.destructionPrefab[(int)item.groupId], item.transform.position,Quaternion.identity);
                     Destroy(item.gameObject);
                 }
                 

@@ -18,7 +18,7 @@ MonoBehaviour:
   - Box/Prefabs/WoodCrate/GreenCrate
   - Box/Prefabs/WoodCrate/YellowCrate
   destructionPrefab:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8661513732657498752, guid: 0381a10f65bbbfc4c8060104fca0bde6, type: 3}
+  - {fileID: 2658287711381874061, guid: 45b113ce8f9244a42ac60b23dbf92797, type: 3}
+  - {fileID: 162386511183361599, guid: 33d6f70923dd65f40bbda4e88020b283, type: 3}
+  - {fileID: 8183099145243518019, guid: e551dc0c07c15d54da5e31a958b18648, type: 3}

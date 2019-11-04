@@ -36,7 +36,7 @@ PrefabInstance:
         type: 3}
       propertyPath: icon
       value: 
-      objectReference: {fileID: 21300000, guid: 6b27428509807b34695ac11d25291e68,
+      objectReference: {fileID: 21300000, guid: b4d650734f5e7c14e856fc6e3bfb0031,
         type: 3}
     - target: {fileID: 114846787503128036, guid: 8eb9b5a0230aaba4cbc0f53901cf6d78,
         type: 3}

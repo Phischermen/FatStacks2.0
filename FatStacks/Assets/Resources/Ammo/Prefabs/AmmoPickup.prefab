@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 174051884691068985}
   - component: {fileID: 6160326520292082626}
-  m_Layer: 10
+  m_Layer: 17
   m_Name: Audio Source
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 4511950089605001450}
   - component: {fileID: 6360812642161415312}
   - component: {fileID: 8197600576345530744}
-  m_Layer: 10
+  m_Layer: 17
   m_Name: AmmoBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 1033151353557454437}
   - component: {fileID: 8978029074372636356}
   - component: {fileID: 8137243088274448835}
-  m_Layer: 10
+  m_Layer: 17
   m_Name: AmmoPickup
   m_TagString: Interactable
   m_Icon: {fileID: 0}
@@ -273,6 +273,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   current_prompt: 0
   _PromptData: {fileID: 11400000, guid: dc57b975944fe324b84994a906b86558, type: 2}
+  isBusy: 0
   model: {fileID: 8474166053899277939}
   audiosource: {fileID: 6160326520292082626}
   gun: 3

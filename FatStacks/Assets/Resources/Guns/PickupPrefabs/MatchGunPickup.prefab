@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2401718097868654717}
   - component: {fileID: 3929662818566243727}
   - component: {fileID: 6378777854899151401}
-  m_Layer: 10
+  m_Layer: 17
   m_Name: MatchGunPickup
   m_TagString: Interactable
   m_Icon: {fileID: 0}
@@ -80,6 +80,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   current_prompt: 0
   _PromptData: {fileID: 11400000, guid: e7090001b12b6ee44ae7ab913c8966c6, type: 2}
+  isBusy: 0
   gun: 0
   ammo: 100
   logEntry: Obtained the <b><color=green>Match</color> <color=blue>Gun</color></b>
@@ -94,7 +95,7 @@ GameObject:
   - component: {fileID: 1269816080111875826}
   - component: {fileID: 8594210771444912776}
   - component: {fileID: 6827837494664095584}
-  m_Layer: 11
+  m_Layer: 17
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

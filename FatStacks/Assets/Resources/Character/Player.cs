@@ -329,7 +329,7 @@ public class Player : MonoBehaviour
                 solidLayerMask))
         {
             //If normal has a significant y component, break the while loop
-            if (hit_info.normal.y > 0.5f || (!hit_info.transform.gameObject.isStatic && grounded))
+            if (hit_info.normal.y > 0.5f /*|| (!hit_info.transform.gameObject.isStatic && grounded)*/)
             {
                 break;
             }
@@ -360,10 +360,12 @@ public class Player : MonoBehaviour
         //Translate the player
         _Rigidbody.MovePosition(_Rigidbody.position + playerVelocity);
     }
+
     private bool checkGrounded()
     {
-        return Physics.CheckSphere(transform.position + new Vector3(0, -1.06f, 0), 0.475f, solidLayerMask);
+        return Physics.CheckSphere(transform.position + new Vector3(0, -1.07f, 0), 0.45f, solidLayerMask);
     }
+
     public void SetCrouchState(bool crouched, bool instant = false)
     {
         IsCrouched = crouched;

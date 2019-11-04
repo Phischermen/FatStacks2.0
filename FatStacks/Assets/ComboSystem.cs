@@ -13,7 +13,7 @@ public class ComboSystem : MonoBehaviour
     public static int accumulatedScore;
 
     public static float timer;
-    public static float comboTime = 1.5f;
+    public static float comboTime = 4f;
 
     public Image meter;
     public Text comboText;
@@ -34,6 +34,15 @@ public class ComboSystem : MonoBehaviour
             DestroyImmediate(gameObject);
         }
         singleton.scoreText.text = score.ToString();
+    }
+
+    private void Update()
+    {
+        if(timer > 0)
+        {
+            timer -= Time.deltaTime;
+            singleton.meter.fillAmount = timer / comboTime;
+        }
     }
 
     private void OnDisable()
@@ -87,12 +96,7 @@ public class ComboSystem : MonoBehaviour
     static IEnumerator Combo()
     {
         singleton.meter.gameObject.SetActive(true);
-        while(timer > 0)
-        {
-            timer -= 0.01f;
-            singleton.meter.fillAmount = timer / comboTime;
-            yield return new WaitForSeconds(0.01f);
-        }
+        yield return new WaitUntil(() => timer <= 0);
         Score();
         HideAndResetCombo();
     }

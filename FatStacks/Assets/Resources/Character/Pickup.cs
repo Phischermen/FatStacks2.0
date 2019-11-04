@@ -55,7 +55,7 @@ public class Pickup : MonoBehaviour
         layerMaskPickup = LayerMask.GetMask("InteractSolid", "InteractSoft", "Default");
         layerMaskObstructed = LayerMask.GetMask("Player");
         layerMaskHide = LayerMask.GetMask("InteractSolid", "Default");
-
+        snapText.text = (snap) ? "Snap: ON" : "Snap: OFF";
         //character = transform.parent.gameObject;
     }
 
@@ -93,7 +93,7 @@ public class Pickup : MonoBehaviour
                             nextState = PickupState.pickupObjectTargeted;
                             targetedItemBox = targetedObject.GetComponent<Box>();
                             busy = false;
-                            prompt.fadeInText("LIFT");
+                            prompt.fadeInText("<b>[E]</b>LIFT");
                             break;
                         default:
                             break;
@@ -234,13 +234,13 @@ public class Pickup : MonoBehaviour
                     placementPreviews[i].gameObject.SetActive(true);
                     if (canDropAtCoords[i])
                     {
-                        prompt.fadeInText("PLACE");
+                        //prompt.fadeInText("<b>[R]</b>PLACE");
                         placementPreviews[i].SetValid(true);
                         //properties.SetColor("_Color", new Color(0.7f, 0.89f, 1f, 0.75f));
                     }
                     else
                     {
-                        prompt.fadeOutText();
+                        //prompt.fadeOutText();
                         placementPreviews[i].SetValid(false);
                         //properties.SetColor("_Color", new Color(1f, 0.89f, 0.7f, 0.75f));
                     }
@@ -361,7 +361,7 @@ public class Pickup : MonoBehaviour
 
     public void RefreshText()
     {
-        prompt.fadeInText(targetedItemInteraction.GetPrompt());
+        prompt.fadeInText("<b>[E]</b>" + targetedItemInteraction.GetPrompt());
     }
 
     private bool InteractTargetLost(bool objectFound,RaycastHit hit)

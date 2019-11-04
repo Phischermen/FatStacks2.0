@@ -964,7 +964,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 18
-    m_FontStyle: 1
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 40
@@ -1057,7 +1057,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 18
-    m_FontStyle: 1
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 40
@@ -3992,16 +3992,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 515364208006019098, guid: cbde07fcc623db0469f944831c8b874f,
-        type: 3}
-      propertyPath: m_TargetTexture
-      value: 
-      objectReference: {fileID: 8400000, guid: 86e7e74cb65744a418dbac49aa3e1580, type: 2}
     - target: {fileID: 6735596745531635713, guid: cbde07fcc623db0469f944831c8b874f,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 8a0af74775d419547b5622ed3fd2dbb9, type: 2}
+    - target: {fileID: 515364208006019098, guid: cbde07fcc623db0469f944831c8b874f,
+        type: 3}
+      propertyPath: m_TargetTexture
+      value: 
+      objectReference: {fileID: 8400000, guid: 86e7e74cb65744a418dbac49aa3e1580, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cbde07fcc623db0469f944831c8b874f, type: 3}
 --- !u!114 &6041964161595556549 stripped

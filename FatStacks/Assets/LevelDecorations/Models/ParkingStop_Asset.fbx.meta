@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: phong4
-    second: {fileID: 2100000, guid: d8d5de3ffceea22478c54b7926ff04cc, type: 2}
+    second: {fileID: 2100000, guid: 7ef7b3b4974830848a8d0f21287b3fe9, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

@@ -16,16 +16,20 @@ public class SettingsMenuActions : MonoBehaviour
     {
         sliderSensitivity.value = PlayerPrefs.GetFloat("Sensitivity");
         sliderFieldOfView.value = PlayerPrefs.GetFloat("FOV");
+        SensitivityChanged();
+        FieldOfViewChanged();
     }
 
-    public void SensitivityChanged(float value)
+    public void SensitivityChanged()
     {
+        float value = sliderSensitivity.value;
         PlayerPrefs.SetFloat("Sensitivity", value);
         textSensitivity.text = Math.Round(value, 2, MidpointRounding.AwayFromZero).ToString();
     }
 
-    public void FieldOfViewChanged(float value)
+    public void FieldOfViewChanged()
     {
+        float value = sliderFieldOfView.value;
         PlayerPrefs.SetFloat("FOV", value);
         textFOV.text = Math.Round(value, 2, MidpointRounding.AwayFromZero).ToString();
     }

@@ -34,6 +34,7 @@ public class Player : MonoBehaviour
     public Pickup myPickup;
     public GameObject UI;
     public GameObject lockdownUI;
+    public GameObject pauseMenu;
     private bool JumpPressed = false;
     private bool IsFeatherFalling;
     private float HighestY;
@@ -283,11 +284,7 @@ public class Player : MonoBehaviour
         //Locking the cursor
         if (Input.GetKeyDown("escape"))
         {
-            //Toggle cursor lock
-            Cursor.lockState = (Cursor.lockState == CursorLockMode.Locked) ?
-                (CursorLockMode.None) :
-                (CursorLockMode.Locked);
-            Cursor.visible = (Cursor.lockState == CursorLockMode.None);
+            TogglePause();
         }
 
         //Restarting scene
@@ -297,10 +294,6 @@ public class Player : MonoBehaviour
             firstSpawnInScene = false;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
-        }
-        if (Input.GetKeyDown(KeyCode.F2))
-        {
-            healthManager.DealDamage(25);
         }
         //Update health bar
         //HealthBar.fillAmount = Mathf.Lerp(HealthBar.fillAmount, Health / 100f, 0.1f);
@@ -419,5 +412,25 @@ public class Player : MonoBehaviour
     public bool GetCrouched()
     {
         return IsCrouched;
+    }
+
+    public void TogglePause()
+    {
+        //Toggle cursor lock
+        Cursor.lockState = (Cursor.lockState == CursorLockMode.Locked) ?
+            (CursorLockMode.None) :
+            (CursorLockMode.Locked);
+        Cursor.visible = (Cursor.lockState == CursorLockMode.None);
+        //Show/Hide Pause Menu and set time scale
+        if (pauseMenu.activeSelf)
+        {
+            pauseMenu.SetActive(false);
+            Time.timeScale = 1;
+        }
+        else
+        {
+            pauseMenu.SetActive(true);
+            Time.timeScale = 0;
+        }
     }
 }

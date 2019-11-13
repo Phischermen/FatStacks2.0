@@ -5,13 +5,14 @@ using UnityEngine;
 public class MouseLook : MonoBehaviour
 {
     Vector2 mouse_look;
-    public float sensitivity = 5.0f;
+    public float baseSensitivity = 5.0f;
+    private float sensitivity = 5.0f;
     Player character;
 
     void Start()
     {
         GetComponent<Camera>().fieldOfView = PlayerPrefs.GetFloat("FOV");
-        sensitivity *= PlayerPrefs.GetFloat("Sensitivity");
+        SetSensitivity(PlayerPrefs.GetFloat("Sensitivity"));
         character = GetComponentInParent<Player>();
         if (Player.firstSpawnInScene)
             Look(new Vector3(transform.localEulerAngles.x, character.transform.localEulerAngles.y, 0));
@@ -46,5 +47,9 @@ public class MouseLook : MonoBehaviour
         {
             mouse_look.y = -dir.x;
         }
+    }
+    public void SetSensitivity(float value)
+    {
+        sensitivity = baseSensitivity * value;
     }
 }

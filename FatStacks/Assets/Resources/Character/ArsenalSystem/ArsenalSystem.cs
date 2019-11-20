@@ -6,7 +6,7 @@ using UnityEngine;
 public class ArsenalSystem : MonoBehaviour
 {
     public Pickup pickup;
-    public Image ammoBar;
+    //public Image ammoBar;
     public Text ammo;
     public enum GunType
     {
@@ -59,7 +59,7 @@ public class ArsenalSystem : MonoBehaviour
 
         if(equippedGun != null)
         {
-            ammoBar.fillAmount = Mathf.Lerp(ammoBar.fillAmount, equippedGun.getAmmoFill(), 0.1f);
+            //ammoBar.fillAmount = Mathf.Lerp(ammoBar.fillAmount, equippedGun.getAmmoFill(), 0.1f);
             ammo.text = equippedGun.ammo.ToString();
         }
 
@@ -207,13 +207,13 @@ public class ArsenalSystem : MonoBehaviour
     private void HideAmmoInfo()
     {
         ammo.canvasRenderer.SetAlpha(0);
-        ammoBar.canvasRenderer.SetAlpha(0);
+        //ammoBar.canvasRenderer.SetAlpha(0);
         uiGunIcon.canvasRenderer.SetAlpha(0);
     }
     private void ShowAmmoInfo()
     {
         ammo.canvasRenderer.SetAlpha(1);
-        ammoBar.canvasRenderer.SetAlpha(1);
+        //ammoBar.canvasRenderer.SetAlpha(1);
         uiGunIcon.canvasRenderer.SetAlpha(1);
     }
 }

@@ -25,18 +25,24 @@ public class AmmoPickup : Interaction
             Pickup pickup = other.gameObject.GetComponentInChildren<Pickup>();
             int oldAmount = amount;
             amount = pickup.gunController.AddAmmoToGun(gun, amount);
-            string formattedEntry = string.Format(logEntry, oldAmount - amount);
-            ItemLog.AddItem(formattedEntry);
+            if (oldAmount - amount > 0)
+            {
+                audiosource.Play();
+                string formattedEntry = string.Format(logEntry, oldAmount - amount);
+                ItemLog.AddItem(formattedEntry);
+            }
             if (amount == 0)
             {
                 Destroy(gameObject, 5f);
                 Destroy(model);
-                audiosource.Play();
+                
+                return;
             }
             else if (oldAmount == amount)
             {
                 pickup.exception.FlashText(GetException(0), 3);
             }
+            notPickedUp = true;
         }
     }
 }

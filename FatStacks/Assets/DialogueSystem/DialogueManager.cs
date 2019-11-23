@@ -13,9 +13,11 @@ public class DialogueManager : MonoBehaviour
     static private bool playConversationFromStackNow;
 
     static private float pause;
+    static private Stack<int> progressStack;
 
     static private Text text;
     static private Image image;
+    static private Image background;
     static private AudioSource source;
 
     public enum InteruptionMode{
@@ -34,8 +36,10 @@ public class DialogueManager : MonoBehaviour
         currentConversation = new Conversation();
         conversationStack = new Stack<Conversation>();
         conversationQueue = new Queue<Conversation>();
+        progressStack = new Stack<int>();
         text = GetComponentInChildren<Text>();
         image = GetComponentInChildren<Image>();
+        background = GetComponentsInChildren<Image>()[1];
         source = GetComponentInChildren<AudioSource>();
     }
 
@@ -45,13 +49,19 @@ public class DialogueManager : MonoBehaviour
         {
             case InteruptionMode.doNotInterupt:
                 conversationQueue.Enqueue(conversation);
+                progressStack.Push(0);
                 break;
             case InteruptionMode.interuptAndDoNotResume:
-                conversationStack.Pop();
+                if(conversationStack.Count > 0) conversationStack.Pop();
+                if(progressStack.Count > 0) progressStack.Pop();
+                progressStack.Push(0);
                 conversationStack.Push(conversation);
                 playConversationFromStackNow = true;
                 break;
             case InteruptionMode.interuptAndResume:
+                progressStack.Push(currentConversation.progress);
+                conversationStack.Push(currentConversation);
+                progressStack.Push(0);
                 conversationStack.Push(conversation);
                 playConversationFromStackNow = true;
                 break;
@@ -72,11 +82,11 @@ public class DialogueManager : MonoBehaviour
         }
         if (playConversationFromStackNow || (!source.isPlaying && pause == 0f && (ConversationsAreQueued() || !currentConversation.Done())))
         {
-            playConversationFromStackNow = false;
             //Stop current dialogue
             source.Stop();
             if (currentConversation.Done() || playConversationFromStackNow)
             {
+                playConversationFromStackNow = false;
                 //Get next dialogue
                 Conversation nextConversation = null;
                 if (conversationStack.Count > 0)
@@ -87,15 +97,18 @@ public class DialogueManager : MonoBehaviour
                 {
                     nextConversation = conversationQueue.Dequeue();
                 }
+                nextConversation.SetProgress(progressStack.Pop());
                 currentConversation = nextConversation;
-                currentConversation.Begin();
+
             }
             else
             {
                 currentConversation.Advance();
             }
-            if (currentConversation)
+            if (!currentConversation.Done())
             {
+                //Show
+                ShowDialogueBox(true);
                 Dialogue dialogue = currentConversation.GetCurrent();
                 //Play the dialogue
                 source.clip = dialogue.clip;
@@ -104,6 +117,18 @@ public class DialogueManager : MonoBehaviour
                 text.text = dialogue.dialogue;
                 pause = dialogue.pause;
             }
+            else
+            {
+                ShowDialogueBox(false);
+            }
         }
+    }
+
+    void ShowDialogueBox(bool show = true)
+    {
+        image.gameObject.SetActive(show);
+        background.gameObject.SetActive(show);
+        text.gameObject.SetActive(show);
+        source.gameObject.SetActive(show);
     }
 }

@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class DialogueTest : MonoBehaviour
 {
-    bool triggered = false;
+    public DialogueManager.InteruptionMode interuptionMode;
 
     public Conversation conversation;
     private void OnTriggerEnter(Collider other)
     {
-        if (!triggered)
-        {
-            DialogueManager.PushConversation(conversation);
-        }
-        triggered = true;
+        DialogueManager.PushConversation(conversation, interuptionMode);
     }
 }

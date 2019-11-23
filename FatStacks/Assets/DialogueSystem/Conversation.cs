@@ -8,10 +8,10 @@ public class Conversation : ScriptableObject
 {
     [SerializeField]
     private Dialogue[] dialogue = new Dialogue[0];
-    private int progress = 0;
+    public int progress { get; private set; } = 0;
 
-    public void Begin() { progress = 0; }
-    public void Advance() { progress = Mathf.Min(progress + 1, dialogue.Length - 1); }
-    public bool Done() { return progress == dialogue.Length - 1 || dialogue.Length == 0; }
-    public Dialogue GetCurrent() { return dialogue[progress]; }
+    public void Advance() { progress = Mathf.Min(progress + 1, dialogue.Length); }
+    public void SetProgress(int p) { progress = Mathf.Clamp(p, 0, dialogue.Length); }
+    public bool Done() { return progress == dialogue.Length; }
+    public Dialogue GetCurrent() { return (progress < dialogue.Length) ? dialogue[progress] : null; }
 }

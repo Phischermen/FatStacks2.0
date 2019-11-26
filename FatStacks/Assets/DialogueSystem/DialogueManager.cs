@@ -37,10 +37,10 @@ public class DialogueManager : MonoBehaviour
         conversationStack = new Stack<Conversation>();
         conversationQueue = new Queue<Conversation>();
         progressStack = new Stack<int>();
-        text = GetComponentInChildren<Text>();
-        image = GetComponentInChildren<Image>();
-        background = GetComponentsInChildren<Image>()[1];
-        source = GetComponentInChildren<AudioSource>();
+        text = GetComponentInChildren<Text>(true);
+        image = GetComponentInChildren<Image>(true);
+        background = GetComponentsInChildren<Image>(true)[1];
+        source = GetComponentInChildren<AudioSource>(true);
     }
 
     public static void PushConversation(Conversation conversation, InteruptionMode interupt = InteruptionMode.doNotInterupt)

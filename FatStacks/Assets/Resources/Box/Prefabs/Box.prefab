@@ -63,7 +63,6 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: bd7dd1ca1925a4e439a98865a606f423, type: 2}
-  - {fileID: 2100000, guid: f1394b0ed2249be499c7131cd63b082f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -71,6 +70,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -125,6 +125,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boxData: {fileID: 11400000, guid: b40f3fbfac32a144e8d965ee47d17c6d, type: 2}
+  inventoryIcon: {fileID: 0}
+  color: {r: 0, g: 0, b: 0, a: 0}
+  icon: {fileID: 0}
   _Grid: {fileID: 0}
   _BoxCoordDictionary: {fileID: 0}
   i_am: Crate
@@ -132,6 +135,7 @@ MonoBehaviour:
   weight: 1
   isTooHeavy: 0
   distanceCheck: 2
+  centerLocalTransform: {x: 0.5, y: 0.5, z: 0.5}
   neighborCoordEvaluatorLocalTransforms:
   - {x: 0.1, y: 0.1, z: 0.1}
   - {x: 0.1, y: 0.1, z: 0.9}
@@ -160,6 +164,7 @@ MonoBehaviour:
   maxHealth: 0
   health: 10
   clampHealthToMax: 1
+  selfDamage: 0
 --- !u!114 &114997809581238284
 MonoBehaviour:
   m_ObjectHideFlags: 0

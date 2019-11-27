@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d4a4a97cce73ad4f8d2ddc273221c52, type: 3}
+  m_Name: HeavyCrateData
+  m_EditorClassIdentifier: 
+  colorPrefabs:
+  - Box/Prefabs/MetalCrate/BlueCrateHeavy
+  - Box/Prefabs/MetalCrate/RedCrateHeavy
+  - Box/Prefabs/MetalCrate/GreenCrateHeavy
+  - Box/Prefabs/MetalCrate/YellowCrateHeavy
+  destructionPrefab:
+  - {fileID: 8661513732657498752, guid: 0381a10f65bbbfc4c8060104fca0bde6, type: 3}
+  - {fileID: 2658287711381874061, guid: 45b113ce8f9244a42ac60b23dbf92797, type: 3}
+  - {fileID: 162386511183361599, guid: 33d6f70923dd65f40bbda4e88020b283, type: 3}
+  - {fileID: 8183099145243518019, guid: e551dc0c07c15d54da5e31a958b18648, type: 3}

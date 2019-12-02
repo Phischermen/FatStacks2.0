@@ -11,9 +11,11 @@ public class Box : MonoBehaviour
     public Sprite icon;
 
     [HideInInspector]
-    public Grid _Grid;
+    public Grid grid;
     [HideInInspector]
-    public BoxCoordDictionary _BoxCoordDictionary;
+    public BoxCoordDictionary boxCoordDictionary;
+    [HideInInspector]
+    public Puzzle puzzle;
 
     [SerializeField]
     public string i_am = "m3Object";
@@ -84,9 +86,11 @@ public class Box : MonoBehaviour
 
     void Awake()
     {
-        _Grid = GetComponentInParent<Grid>();
-        _BoxCoordDictionary = GetComponentInParent<BoxCoordDictionary>();
+        grid = GetComponentInParent<Grid>();
+        boxCoordDictionary = GetComponentInParent<BoxCoordDictionary>();
+        puzzle = GetComponentInParent<Puzzle>();
     }
+
     void Start()
     {
         coords = new Vector3Int[neighborCoordEvaluatorLocalTransforms.Length];
@@ -94,8 +98,8 @@ public class Box : MonoBehaviour
         //Initialize coord
         for (int i = 0; i < neighborCoordEvaluatorLocalTransforms.Length; ++i)
         {
-            coords[i] = _Grid.WorldToCell(transform.position + transform.rotation * neighborCoordEvaluatorLocalTransforms[i]);
-            _BoxCoordDictionary.Add(coords[i], gameObject);
+            coords[i] = grid.WorldToCell(transform.position + transform.rotation * neighborCoordEvaluatorLocalTransforms[i]);
+            boxCoordDictionary.Add(coords[i], gameObject);
         }
         coords.CopyTo(prev_coord, 0);
         Frozen = _frozen;
@@ -126,7 +130,7 @@ public class Box : MonoBehaviour
             {
                 //This coord
                 //Debug.Log("Cell removed");
-                _BoxCoordDictionary.Remove(prev_coord[j], transform.gameObject);
+                boxCoordDictionary.Remove(prev_coord[j], transform.gameObject);
             }
         }
         coords.CopyTo(prev_coord, 0);
@@ -149,7 +153,7 @@ public class Box : MonoBehaviour
                 //    continue;
                 //}
                 //Get neighbor from match3_grid
-                GameObject[] neighbor_game_objects = _BoxCoordDictionary.Get(coords[i] + neighborLocalCoords[j]);
+                GameObject[] neighbor_game_objects = boxCoordDictionary.Get(coords[i] + neighborLocalCoords[j]);
 
                 if (neighbor_game_objects != null)
                 {
@@ -173,7 +177,7 @@ public class Box : MonoBehaviour
                         }
                         else
                         {
-                            _BoxCoordDictionary.Remove(coords[i] + neighborLocalCoords[j], neighbor_game_objects[k]);
+                            boxCoordDictionary.Remove(coords[i] + neighborLocalCoords[j], neighbor_game_objects[k]);
                         }
                         
                     }
@@ -205,7 +209,7 @@ public class Box : MonoBehaviour
                 //    continue;
                 //}
                 //Get neighbor from match3_grid
-                GameObject[] neighbor_game_objects = _BoxCoordDictionary.Get(coords[i] + neighborLocalCoords[j]);
+                GameObject[] neighbor_game_objects = boxCoordDictionary.Get(coords[i] + neighborLocalCoords[j]);
 
                 if (neighbor_game_objects != null)
                 {
@@ -231,7 +235,7 @@ public class Box : MonoBehaviour
                         }
                         else
                         {
-                            _BoxCoordDictionary.Remove(coords[i] + neighborLocalCoords[j], neighbor_game_objects[k]);
+                            boxCoordDictionary.Remove(coords[i] + neighborLocalCoords[j], neighbor_game_objects[k]);
 
                         }
                     }
@@ -251,7 +255,7 @@ public class Box : MonoBehaviour
         //Get coord with highest y value
         Vector3Int hiCoord = GetHighestCoordAlignedWithStack();
         //Get the neighbors in the cell above me
-        GameObject[] neighborGameObjects = _BoxCoordDictionary.Get(hiCoord + Vector3Int.up);
+        GameObject[] neighborGameObjects = boxCoordDictionary.Get(hiCoord + Vector3Int.up);
         Box neighbor = neighborGameObjects?[0].GetComponent<Box>();
         if (neighbor != null)
         {
@@ -269,7 +273,7 @@ public class Box : MonoBehaviour
         //Get coord with highest y value
         Vector3Int hiCoord = GetHighestCoordAlignedWithStack();
         //Get the neighbors in cell above me
-        GameObject[] neighbors = _BoxCoordDictionary.Get(hiCoord + Vector3Int.up);
+        GameObject[] neighbors = boxCoordDictionary.Get(hiCoord + Vector3Int.up);
         if (neighbors != null)
         {
             foreach (GameObject neighbor in neighbors)
@@ -331,8 +335,8 @@ public class Box : MonoBehaviour
     {
         for (int i = 0; i < coords.Length; ++i)
         {
-            _BoxCoordDictionary.Remove(coords[i], transform.gameObject);
-            _BoxCoordDictionary.Remove(prev_coord[i], transform.gameObject);
+            boxCoordDictionary.Remove(coords[i], transform.gameObject);
+            boxCoordDictionary.Remove(prev_coord[i], transform.gameObject);
         }
     }
 
@@ -340,11 +344,11 @@ public class Box : MonoBehaviour
     {
         for (int i = 0; i < neighborCoordEvaluatorLocalTransforms.Length; ++i)
         {
-            coords[i] = _Grid.WorldToCell(transform.position + (transform.rotation * neighborCoordEvaluatorLocalTransforms[i]));
+            coords[i] = grid.WorldToCell(transform.position + (transform.rotation * neighborCoordEvaluatorLocalTransforms[i]));
             if (forceAdd == true || coords[i] != prev_coord[i])
             {
                 //Debug.Log("Cell added");
-                _BoxCoordDictionary.Add(coords[i], gameObject);
+                boxCoordDictionary.Add(coords[i], gameObject);
             }
         }
     }

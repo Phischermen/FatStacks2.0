@@ -338,9 +338,9 @@ public class Pickup : MonoBehaviour
             carriedItem = carriedObjects.Peek();
             //SetCarriedItemMeshMaterialAndRigidbody(carriedObjects.Peek());
         //Transfering object to another grid.
-        if (droppedItem._Grid != placementGrid)
+        if (droppedItem.grid != placementGrid)
         {
-            droppedItem._Grid = placementGrid;
+            droppedItem.grid = placementGrid;
             droppedItem.transform.SetParent(placementGrid.transform);
         }
         droppedItem.AddMyself(true);

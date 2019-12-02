@@ -25,7 +25,7 @@ public class BoxSaveData : SaveData {
         position = box.transform.position;
 
         //Set room
-        room = box._Grid.name;
+        room = box.grid.name;
     }
 
     public override void Read()

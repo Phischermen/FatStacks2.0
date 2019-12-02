@@ -6,13 +6,10 @@ public class MatchGun : Gun
 {
 
     public override void fire1(Ray ray){
-
-        //RoomResetterInteraction.canReset = true;
         RaycastHit hit_info;
         bool object_found = Physics.Raycast(ray, out hit_info, float.MaxValue, LayerMask.GetMask("Default", "InteractSolid", "Helicopter"));
         if (object_found && hit_info.transform.GetComponent<Box>() != null)
         {
-            // Debug.Log("Object shot: " + hit_info.transform.name);
             List<Box> boxs = hit_info.transform.gameObject.GetComponent<Box>().GetMatchingNeighbors();
             int count = boxs.Count;
             if (count >= 3)
@@ -27,9 +24,12 @@ public class MatchGun : Gun
                 {
                     playFireSound(1);
                 }
-                //Debug.Log("Group greater than or equal to three");
                 foreach (Box item in boxs)
                 {
+                    if(item.puzzle != null)
+                    {
+                        item.puzzle.AccumulateBoxesAndScore(1, 10);
+                    }
                     Instantiate(item.boxData.destructionPrefab[(int)item.groupId], item.transform.position,Quaternion.identity);
                     Destroy(item.gameObject);
                 }
@@ -39,7 +39,6 @@ public class MatchGun : Gun
             {
                 playErrorSound(0);
                 ComboSystem.BreakCombo();
-                //Debug.Log("Group less than three");
             }
         }
         else
@@ -57,7 +56,11 @@ public class MatchGun : Gun
             Debug.Log(boxs.Count);
             foreach (Box box in boxs)
             {
-                Debug.Log(box.name);
+                if (box.puzzle != null)
+                {
+                    box.puzzle.ResetPuzzle();
+                    return;
+                }
             }
         }
     }

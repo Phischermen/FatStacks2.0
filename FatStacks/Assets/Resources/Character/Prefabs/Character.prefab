@@ -506,7 +506,7 @@ Projector:
   m_Material: {fileID: 2100000, guid: e30ff3588e719f34bbf0c66f22d97487, type: 2}
   m_IgnoreLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2
 --- !u!1 &1627184583863790
 GameObject:
   m_ObjectHideFlags: 0
@@ -4511,7 +4511,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4578379971728496078}
   - component: {fileID: 3203053464937515521}
-  - component: {fileID: 1122159553294736026}
+  - component: {fileID: 4941055239439226586}
   m_Layer: 5
   m_Name: Score
   m_TagString: Untagged
@@ -4548,7 +4548,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7070505040982411625}
   m_CullTransparentMesh: 0
---- !u!114 &1122159553294736026
+--- !u!114 &4941055239439226586
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4557,7 +4557,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7070505040982411625}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b11d673b2d36f849b5641596d20ccac, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d17744fd3372bb49a9e0324ec47e5bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   meter: {fileID: 4344874769417588029}

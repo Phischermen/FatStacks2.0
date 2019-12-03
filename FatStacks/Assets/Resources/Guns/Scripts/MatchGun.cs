@@ -14,7 +14,9 @@ public class MatchGun : Gun
             int count = boxs.Count;
             if (count >= 3)
             {
-                ComboSystem.IncrementComboAndAccumulateScore(10 * count, count);
+                int score = 0;
+                int i = 0;
+                bool puzzleReset = false;
                 if (count < 6)
                 {
                     playFireSound(0);
@@ -26,14 +28,20 @@ public class MatchGun : Gun
                 }
                 foreach (Box item in boxs)
                 {
+                    i += 1;
+                    score += Mathf.Min(i , 6) * 10;
                     if(item.puzzle != null)
                     {
                         item.puzzle.AccumulateBoxesAndScore(1, 10);
+                        puzzleReset = puzzleReset || item.puzzle.puzzleWasReset;
                     }
                     Instantiate(item.boxData.destructionPrefab[(int)item.groupId], item.transform.position,Quaternion.identity);
                     Destroy(item.gameObject);
                 }
-                
+                if (!puzzleReset)
+                {
+                    ComboSystem.IncrementComboAndAccumulateScore(score, count);
+                }
             }
             else
             {
@@ -48,20 +56,16 @@ public class MatchGun : Gun
     }
     public override void fire2(Ray ray)
     {
+        if(Player.singleton.myPickup.carriedObjects.Count > 0) //Don't reset anything if player is carrying boxes
+        {
+            return;
+        }
         RaycastHit hit_info;
         bool object_found = Physics.Raycast(ray, out hit_info, float.MaxValue, LayerMask.GetMask("Default", "InteractSolid"));
-        if (object_found && hit_info.transform.GetComponent<Box>() != null)
+        Puzzle puzzle = hit_info.transform?.GetComponent<Box>()?.puzzle;
+        if (object_found && puzzle != null)
         {
-            List<Box> boxs = hit_info.transform.gameObject.GetComponent<Box>().GetMatchingNeighbors();
-            Debug.Log(boxs.Count);
-            foreach (Box box in boxs)
-            {
-                if (box.puzzle != null)
-                {
-                    box.puzzle.ResetPuzzle();
-                    return;
-                }
-            }
+            puzzle.ResetPuzzle();
         }
     }
     public override bool canFire()

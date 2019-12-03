@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class Puzzle : MonoBehaviour
 {
+    [HideInInspector]
+    public List<Box> originalBoxList;
     private ChildrenResetter resetter;
+    public int threshold;
+    [HideInInspector]
     public int quota;
     private int accumulatedScore;
     private int accumulatedBoxes;
-    private bool solved;
+    [HideInInspector]
+    public bool puzzleWasReset = false;
+    private bool solved = false;
 
     private void Start()
     {
-        resetter = GetComponent<ChildrenResetter>();    
+        resetter = GetComponent<ChildrenResetter>();
+        quota = transform.childCount - 2 - threshold;
     }
 
     public void Update()
@@ -32,7 +39,12 @@ public class Puzzle : MonoBehaviour
     {
         if (!solved)
         {
+            puzzleWasReset = true;
             resetter.ResetRoom();
+            foreach(Box box in originalBoxList)
+            {
+                Destroy(box.gameObject);
+            }
             accumulatedBoxes = accumulatedScore = 0;
         }
     }

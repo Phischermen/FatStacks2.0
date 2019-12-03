@@ -88,7 +88,10 @@ public class Box : MonoBehaviour
     {
         grid = GetComponentInParent<Grid>();
         boxCoordDictionary = GetComponentInParent<BoxCoordDictionary>();
-        puzzle = GetComponentInParent<Puzzle>();
+        if (!puzzle)
+        {
+            puzzle = GetComponentInParent<Puzzle>();
+        }
     }
 
     void Start()
@@ -101,6 +104,10 @@ public class Box : MonoBehaviour
             coords[i] = grid.WorldToCell(transform.position + transform.rotation * neighborCoordEvaluatorLocalTransforms[i]);
             boxCoordDictionary.Add(coords[i], gameObject);
         }
+        if (puzzle)
+        {
+            puzzle.originalBoxList.Add(this);
+        }
         coords.CopyTo(prev_coord, 0);
         Frozen = _frozen;
     }
@@ -112,6 +119,10 @@ public class Box : MonoBehaviour
     private void OnDestroy()
     {
         RemoveMyself();
+        if (puzzle)
+        {
+            puzzle.originalBoxList.Remove(this);
+        }
     }
     void UpdateCoords()
     {

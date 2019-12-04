@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
     public GameObject lockdownUI;
     public GameObject pauseMenu;
     private bool JumpPressed = false;
-    private bool IsFeatherFalling;
+    //private bool IsFeatherFalling;
     private float HighestY;
     private bool grounded;
     private int AdjacentColliderCount;
@@ -190,6 +190,7 @@ public class Player : MonoBehaviour
             Debug.DrawRay(transform.position, Vector3.up, Color.blue, 10f);
         }
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "BoxGrid")
@@ -312,8 +313,8 @@ public class Player : MonoBehaviour
             _Rigidbody.AddForce(new Vector3(0f, JumpForce, 0f), ForceMode.VelocityChange);
             _Rigidbody.drag = 0;
         }
-        //Set drag
-        _Rigidbody.drag = (IsFeatherFalling) ? (5.0f) : (0.0f);
+        ////Set drag
+        //_Rigidbody.drag = (IsFeatherFalling) ? (5.0f) : (0.0f);
         //Check for approaching collision
         RaycastHit hit_info;
         while (Physics.CapsuleCast(transform.position + _Collider.center + (Vector3.up * _Collider.height * 0.15f),

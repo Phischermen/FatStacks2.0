@@ -51,8 +51,17 @@ public class ComboSystem : MonoBehaviour
         {
             StopCoroutine(comboCoroutine);
         }
-        Score();
-        HideAndResetCombo();
+        if(combo > 0)
+        {
+            Score();
+            HideAndResetCombo();
+        }
+    }
+
+    public static void AddPoints(int points)
+    {
+        score += points;
+        singleton.scoreText.text = score.ToString();
     }
 
     public static void IncrementComboAndAccumulateScore(int score, int boxes)

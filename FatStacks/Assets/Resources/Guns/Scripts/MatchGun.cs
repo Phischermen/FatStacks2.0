@@ -33,6 +33,7 @@ public class MatchGun : Gun
                     if(item.puzzle != null)
                     {
                         item.puzzle.AccumulateBoxesAndScore(1, 10);
+                        item.puzzle.CheckSolved();
                         puzzleReset = puzzleReset || item.puzzle.puzzleWasReset;
                     }
                     Instantiate(item.boxData.destructionPrefab[(int)item.groupId], item.transform.position,Quaternion.identity);

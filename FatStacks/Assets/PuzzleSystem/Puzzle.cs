@@ -7,32 +7,37 @@ public class Puzzle : MonoBehaviour
     [HideInInspector]
     public List<Box> originalBoxList;
     private ChildrenResetter resetter;
-    public int threshold;
     [HideInInspector]
-    public int quota;
-    private int accumulatedScore;
-    private int accumulatedBoxes;
+    public int accumulatedScore;
+    [HideInInspector]
+    public int accumulatedBoxes;
+    private int quota;
     [HideInInspector]
     public bool puzzleWasReset = false;
-    private bool solved = false;
+    [HideInInspector]
+    public bool solved = false;
 
     private void Start()
     {
         resetter = GetComponent<ChildrenResetter>();
-        quota = transform.childCount - 2 - threshold;
+        quota = transform.childCount - 1;
     }
 
     public void Update()
     {
+        CheckSolved();
+    }
+
+    public void CheckSolved()
+    {
         if (!solved)
         {
-            solved = (accumulatedBoxes > quota);
+            solved = (accumulatedBoxes == quota);
             if (solved)
             {
-                Debug.Log("You solved the puzzle!");
+                PuzzleSystem.Score(this);
             }
         }
-        
     }
 
     public void ResetPuzzle()

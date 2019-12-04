@@ -128,13 +128,14 @@ MonoBehaviour:
   inventoryIcon: {fileID: 0}
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
-  _Grid: {fileID: 0}
-  _BoxCoordDictionary: {fileID: 0}
+  grid: {fileID: 0}
+  boxCoordDictionary: {fileID: 0}
+  puzzle: {fileID: 0}
   i_am: Crate
   resourcePath: Box/Prefabs/Box
   weight: 1
   isTooHeavy: 0
-  distanceCheck: 1.25
+  distanceCheck: 1.325
   centerLocalTransform: {x: 0.5, y: 0.5, z: 0.5}
   neighborCoordEvaluatorLocalTransforms:
   - {x: 0.1, y: 0.1, z: 0.1}

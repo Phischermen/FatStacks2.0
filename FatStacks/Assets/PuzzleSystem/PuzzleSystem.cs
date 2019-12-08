@@ -7,6 +7,7 @@ public class PuzzleSystem : MonoBehaviour
 {
     public static PuzzleSystem singleton;
     public Text laurelText;
+    public AudioSource source;
 
     private static Coroutine laurelCoroutine;
 
@@ -37,8 +38,10 @@ public class PuzzleSystem : MonoBehaviour
 
     public static void Score(Puzzle puzzle)
     {
-        puzzle.solved = true;
         ShowUI(true);
+        singleton.source.Play();
+        puzzle.solved = true;
+        
         if(laurelCoroutine != null) singleton.StopCoroutine(laurelCoroutine);
         laurelCoroutine = singleton.StartCoroutine(Laurel());
         int points = 0;
@@ -60,7 +63,7 @@ public class PuzzleSystem : MonoBehaviour
 
     static IEnumerator Laurel()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitUntil(()=> !singleton.source.isPlaying);
         ShowUI(false);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "new Conversation", menuName = "Dialogue/Conversation")]
@@ -14,4 +15,7 @@ public class Conversation : ScriptableObject
     public void SetProgress(int p) { progress = Mathf.Clamp(p, 0, dialogue.Length); }
     public bool Done() { return progress == dialogue.Length; }
     public Dialogue GetCurrent() { return (progress < dialogue.Length) ? dialogue[progress] : null; }
+
+    [HideInInspector]
+    public UnityEvent onComplete;
 }

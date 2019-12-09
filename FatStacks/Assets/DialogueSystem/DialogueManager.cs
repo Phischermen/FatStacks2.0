@@ -119,6 +119,7 @@ public class DialogueManager : MonoBehaviour
             }
             else
             {
+                currentConversation.onComplete.Invoke();
                 ShowDialogueBox(false);
             }
         }

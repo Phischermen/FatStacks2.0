@@ -14,7 +14,7 @@ public class DoorInteraction : Interaction
     public bool isOpen { get; private set; }
     [HideInInspector]
     public Animator animator;
-    private void Start()
+    protected void Start()
     {
         mask = LayerMask.GetMask("Player","InteractSolid");
         animator = GetComponent<Animator>();
@@ -24,7 +24,7 @@ public class DoorInteraction : Interaction
         }
         TwistLock(locked);
     }
-    private void Update()
+    public void Update()
     {
         isBusy = animator.IsInTransition(0);
     }

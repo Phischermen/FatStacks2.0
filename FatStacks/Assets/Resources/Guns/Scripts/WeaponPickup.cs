@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 using UnityEngine;
 
 public class WeaponPickup : Interaction
@@ -7,6 +8,7 @@ public class WeaponPickup : Interaction
     public ArsenalSystem.GunType gun;
     public int ammo;
     public string logEntry;
+    public UnityEvent onPickup;
 
     public override void Interact(Pickup pickup)
     {
@@ -21,6 +23,7 @@ public class WeaponPickup : Interaction
             ArsenalSystem arsenal = other.gameObject.GetComponentInChildren<ArsenalSystem>();
             arsenal.AddGunToArsenalAndEquip(gun);
             arsenal.AddAmmoToGun(gun, ammo);
+            onPickup.Invoke();
             Destroy(gameObject);
         }
     }

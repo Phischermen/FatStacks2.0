@@ -20,6 +20,7 @@ public class Pickup : MonoBehaviour
     public float distanceMax = 5;
 
     public bool snap;
+    public bool showPreview;
     Vector3Int[] dropCoords = new Vector3Int[2];
     Vector3[] dropLocations = new Vector3[2];
     bool[] canDropAtCoords = new bool[] { true, true };
@@ -46,6 +47,7 @@ public class Pickup : MonoBehaviour
     public Fade prompt;
     public Fade exception;
     public Text snapText;
+    public Text previewText;
     private int layerMaskPickup;
     private int layerMaskObstructed;
     private int layerMaskHide;
@@ -55,7 +57,8 @@ public class Pickup : MonoBehaviour
         layerMaskPickup = LayerMask.GetMask("InteractSolid", "InteractSoft", "Default");
         layerMaskObstructed = LayerMask.GetMask("Player");
         layerMaskHide = LayerMask.GetMask("InteractSolid", "Default");
-        snapText.text = (snap) ? "Snap: ON" : "Snap: OFF";
+        snapText.text = "<b>[X]Snap: </b>" + ((snap) ? "ON" : "OFF");
+        previewText.text = "<b>[V]Preview: </b>" + ((showPreview) ? "ON" : "OFF");
         //character = transform.parent.gameObject;
     }
 
@@ -69,9 +72,14 @@ public class Pickup : MonoBehaviour
         if (Input.GetButtonDown("Snap"))
         {
             snap = !snap;
-            snapText.text = (snap) ? "Snap: ON" : "Snap: OFF";
+            snapText.text = "<b>[X]Snap: </b>" + ((snap) ? "ON" : "OFF");
         }
-            
+        if (Input.GetButtonDown("ShowPreview"))
+        {
+            showPreview = !showPreview;
+            previewText.text = "<b>[V]Preview: </b>" + ((showPreview) ? "ON" : "OFF");
+        }
+
         switch (currentPickupState)
         {
             case PickupState.noObjectTargeted:
@@ -182,7 +190,7 @@ public class Pickup : MonoBehaviour
             canDropAtCoords = new bool[] { true, true };
             showDrop = new bool[] { true, true };
 
-
+            
             if (objectFound && hitInfo.distance <= distance)
             {
                 dropLocations[0] = hitInfo.point + (hitInfo.normal * 0.53f) - (snap ? Vector3.zero : carriedItem.centerLocalTransform);
@@ -229,18 +237,18 @@ public class Pickup : MonoBehaviour
                 bool clippingNotDetected = !Physics.CheckBox(dropLocations[i] + new Vector3(0.5f, 0.55f, 0.5f), new Vector3(0.51f, 0.475f, 0.51f), Quaternion.identity, layerMaskHide);
                 canDropAtCoords[i] = canDropAtCoords[i] && obstructionNotDetected && clippingNotDetected;
                 MaterialPropertyBlock properties = new MaterialPropertyBlock();
-                if (showDrop[i])
+                if (showDrop[i] && showPreview)
                 {
                     placementPreviews[i].gameObject.SetActive(true);
                     if (canDropAtCoords[i])
                     {
-                        //prompt.fadeInText("<b>[R]</b>PLACE");
+                        prompt.fadeInText("<b>[R]</b>PLACE");
                         placementPreviews[i].SetValid(true);
                         //properties.SetColor("_Color", new Color(0.7f, 0.89f, 1f, 0.75f));
                     }
                     else
                     {
-                        //prompt.fadeOutText();
+                        prompt.fadeOutText();
                         placementPreviews[i].SetValid(false);
                         //properties.SetColor("_Color", new Color(1f, 0.89f, 0.7f, 0.75f));
                     }

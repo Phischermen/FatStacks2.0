@@ -17,6 +17,9 @@ public class Puzzle : MonoBehaviour
     [HideInInspector]
     public bool solved = false;
 
+    public GameObject reward;
+    public Transform spawnLocation;
+
     private void Start()
     {
         resetter = GetComponent<ChildrenResetter>();

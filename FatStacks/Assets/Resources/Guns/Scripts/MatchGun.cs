@@ -1,9 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 using UnityEngine;
 
 public class MatchGun : Gun
 {
+    [HideInInspector]
+    public UnityEvent onMatch;
+    [HideInInspector]
+    public UnityEvent onFailMatch;
 
     public override void fire1(Ray ray){
         RaycastHit hit_info;
@@ -14,6 +19,7 @@ public class MatchGun : Gun
             int count = boxs.Count;
             if (count >= 3)
             {
+                onMatch.Invoke();
                 int score = 0;
                 int i = 0;
                 bool puzzleReset = false;
@@ -43,9 +49,14 @@ public class MatchGun : Gun
                 {
                     ComboSystem.IncrementComboAndAccumulateScore(score, count);
                 }
+                else
+                {
+                    ammo += 1;
+                }
             }
             else
             {
+                onFailMatch.Invoke();
                 playErrorSound(0);
                 ComboSystem.BreakCombo();
             }

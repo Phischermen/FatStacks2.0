@@ -93,24 +93,23 @@ public class LockDown : MonoBehaviour
         //Queue Lights
         onEnter.Invoke();
         //Queue Music
-        //MusicManager.singleton.PlayTrack(trackBuildUp);
         //Queue UI
         Player.singleton.UI.SetActive(false);
         MusicManager.singleton.PlayTrack(trackBuildUp);
         lockdownAnnounce.SetActive(true);
         lockdownBackground.SetActive(true);
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSecondsRealtime(3f);
         lockdownAnnounce.SetActive(false);
         lockdownTutorial1.SetActive(true);
         yield return new WaitUntil(() => Input.GetButtonDown("Interact/Pickup"));
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSecondsRealtime(0.1f);
         lockdownTutorial1.SetActive(false);
         lockdownTutorial2.SetActive(true);
         yield return new WaitUntil(() => Input.GetButtonDown("Interact/Pickup"));
         lockdownTutorial2.SetActive(false);
         lockdownBackground.SetActive(false);
         Player.singleton.UI.SetActive(true);
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSecondsRealtime(3f);
         MusicManager.singleton.QueueUpNextTrack(trackNormal);
         //Queue Spawners
         foreach (BoxSpawner spawner in spawners)

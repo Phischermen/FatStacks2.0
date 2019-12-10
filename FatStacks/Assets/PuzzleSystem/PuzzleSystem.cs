@@ -42,11 +42,6 @@ public class PuzzleSystem : MonoBehaviour
         singleton.source.Play();
         puzzle.solved = true;
         
-        if(puzzle.reward != null)
-        {
-            Instantiate(puzzle.reward, puzzle.spawnLocation);
-        }
-        
         if(laurelCoroutine != null) singleton.StopCoroutine(laurelCoroutine);
         laurelCoroutine = singleton.StartCoroutine(Laurel());
         int points = 0;

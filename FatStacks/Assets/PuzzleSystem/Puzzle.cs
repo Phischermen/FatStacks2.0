@@ -17,9 +17,6 @@ public class Puzzle : MonoBehaviour
     [HideInInspector]
     public bool solved = false;
 
-    public GameObject reward;
-    public Transform spawnLocation;
-
     private void Start()
     {
         resetter = GetComponent<ChildrenResetter>();
@@ -31,7 +28,7 @@ public class Puzzle : MonoBehaviour
         CheckSolved();
     }
 
-    public void CheckSolved()
+    public bool CheckSolved()
     {
         if (!solved)
         {
@@ -40,7 +37,9 @@ public class Puzzle : MonoBehaviour
             {
                 PuzzleSystem.Score(this);
             }
+            return solved;
         }
+        return false;
     }
 
     public void ResetPuzzle()

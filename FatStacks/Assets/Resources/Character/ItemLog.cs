@@ -22,11 +22,11 @@ public class ItemLog : MonoBehaviour
             DestroyImmediate(gameObject);
         }
     }
+
     public static void AddItem(string text)
     {
         GameObject entry = Instantiate(singleton.logEntry, singleton.transform);
         entry.GetComponent<Text>().text = text;
-        singleton.log.AddFirst(entry);
         singleton.ArrangeEntries();
     }
 

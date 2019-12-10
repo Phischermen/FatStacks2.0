@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class LogEntry : MonoBehaviour
 {
+    LinkedListNode<GameObject> node;
     // Start is called before the first frame update
     public IEnumerator Start()
     {
+        node = ItemLog.singleton.log.AddFirst(gameObject);
         Text text = GetComponent<Text>();
         yield return new WaitForSeconds(2f);
         float alpha = 1;
@@ -16,9 +18,17 @@ public class LogEntry : MonoBehaviour
             alpha = i / 100f;
             text.canvasRenderer.SetAlpha(alpha);
             yield return new WaitForSeconds(0.01f);
+
         }
-        ItemLog.singleton.log.RemoveLast();
+        ItemLog.singleton.log.Remove(node);
         Destroy(gameObject);
     }
-
+    private void OnDisable()
+    {
+        if(node.List == ItemLog.singleton.log)
+        {
+            ItemLog.singleton.log.Remove(node);
+        }
+        Destroy(gameObject);
+    }
 }

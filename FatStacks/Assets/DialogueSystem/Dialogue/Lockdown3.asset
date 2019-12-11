@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5a987eb83e60df45bac4639f0d9af4b, type: 3}
+  m_Name: Lockdown3
+  m_EditorClassIdentifier: 
+  icon: {fileID: 0}
+  dialogue: I mean, I just left THIS trap active because I knew you could handle it!
+    The rest are disabled I promise.
+  clip: {fileID: 8300000, guid: 76e487bbbc5c6524db8003ed4e109cd3, type: 3}
+  pause: 0.1

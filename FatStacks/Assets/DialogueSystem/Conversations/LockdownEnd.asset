@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a4601e845623a44eb0325356c5a84bb, type: 3}
+  m_Name: LockdownEnd
+  m_EditorClassIdentifier: 
+  dialogue:
+  - {fileID: 11400000, guid: 19d68d65850df6c4da19e73fed92bc52, type: 2}
+  - {fileID: 11400000, guid: e8dbe82e262a2e1488ad1b67fde17dbc, type: 2}
+  - {fileID: 11400000, guid: 0166c98a897b87948918b617f8da20c3, type: 2}
+  - {fileID: 11400000, guid: 9215d0584335abb4d92b3c61e530be35, type: 2}
+  - {fileID: 11400000, guid: bd1d3ae3f5682a540833abf8570b234c, type: 2}
+  - {fileID: 11400000, guid: e1cc64f6f5ab5ba4faac16ecbe769a20, type: 2}
+  onComplete:
+    m_PersistentCalls:
+      m_Calls: []

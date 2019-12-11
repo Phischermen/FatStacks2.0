@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class LogEntry : MonoBehaviour
 {
-    LinkedListNode<GameObject> node;
+    public LinkedListNode<GameObject> node;
     // Start is called before the first frame update
     public IEnumerator Start()
     {
-        node = ItemLog.singleton.log.AddFirst(gameObject);
+        
         Text text = GetComponent<Text>();
         yield return new WaitForSeconds(2f);
         float alpha = 1;

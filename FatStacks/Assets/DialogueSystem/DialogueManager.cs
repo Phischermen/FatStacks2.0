@@ -33,7 +33,7 @@ public class DialogueManager : MonoBehaviour
             if(singleton) DestroyImmediate(singleton);
             singleton = this;
         }
-        currentConversation = new Conversation();
+        currentConversation = ScriptableObject.CreateInstance<Conversation>();
         conversationStack = new Stack<Conversation>();
         conversationQueue = new Queue<Conversation>();
         progressStack = new Stack<int>();

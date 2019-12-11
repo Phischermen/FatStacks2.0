@@ -74,4 +74,9 @@ public class ConversationTrigger : MonoBehaviour
             }
         }
     }
+
+    public void DisableTrigger()
+    {
+        triggered = true;
+    }
 }

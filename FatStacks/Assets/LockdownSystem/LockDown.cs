@@ -18,6 +18,10 @@ public class LockDown : MonoBehaviour
     public MusicTrack trackBuildUp;
     public MusicTrack trackNormal;
     public MusicTrack trackCloseCall;
+    [Header("GameOver")]
+    public ChildrenResetter resetter;
+    public Transform resetTransform;
+
     [Header("Queue Doors, Lights, etc.")]
     public UnityEvent onEnter;
     public UnityEvent onComplete;
@@ -86,41 +90,65 @@ public class LockDown : MonoBehaviour
         }
     }
 
-    IEnumerator StartLockDown()
+    IEnumerator StartLockDown(bool reset = false)
     {
-        state = LockDownState.preping;
-        //Queue Doors
-        //Queue Lights
-        onEnter.Invoke();
-        //Queue Music
-        //Queue UI
-        Player.singleton.UI.SetActive(false);
-        MusicManager.singleton.PlayTrack(trackBuildUp);
-        lockdownAnnounce.SetActive(true);
-        lockdownBackground.SetActive(true);
-        yield return new WaitForSecondsRealtime(3f);
-        lockdownAnnounce.SetActive(false);
-        lockdownTutorial1.SetActive(true);
-        yield return new WaitUntil(() => Input.GetButtonDown("Interact/Pickup"));
-        yield return new WaitForSecondsRealtime(0.1f);
-        lockdownTutorial1.SetActive(false);
-        lockdownTutorial2.SetActive(true);
-        yield return new WaitUntil(() => Input.GetButtonDown("Interact/Pickup"));
-        lockdownTutorial2.SetActive(false);
-        lockdownBackground.SetActive(false);
-        Player.singleton.UI.SetActive(true);
-        yield return new WaitForSecondsRealtime(3f);
-        MusicManager.singleton.QueueUpNextTrack(trackNormal);
+        if (!reset)
+        {
+            state = LockDownState.preping;
+            //Queue Doors
+            //Queue Lights
+            onEnter.Invoke();
+            //Queue Music
+            //Queue UI
+            Player.singleton.UI.SetActive(false);
+            MusicManager.singleton.PlayTrack(trackBuildUp);
+            lockdownAnnounce.SetActive(true);
+            lockdownBackground.SetActive(true);
+            yield return new WaitForSeconds(3f);
+            lockdownAnnounce.SetActive(false);
+            lockdownTutorial1.SetActive(true);
+            yield return new WaitUntil(() => Input.GetButtonDown("Interact/Pickup"));
+            yield return new WaitForSeconds(0.1f);
+            lockdownTutorial1.SetActive(false);
+            lockdownTutorial2.SetActive(true);
+            yield return new WaitUntil(() => Input.GetButtonDown("Interact/Pickup"));
+            lockdownTutorial2.SetActive(false);
+            lockdownBackground.SetActive(false);
+            Player.singleton.UI.SetActive(true);
+        }
+        yield return new WaitForSeconds(3f);
+        if(!reset) MusicManager.singleton.QueueUpNextTrack(trackNormal);
         //Queue Spawners
         foreach (BoxSpawner spawner in spawners)
         {
             spawner.TurnSpawnerOn();
+            
         }
         //Show Lockdown UI
         LockdownSystem.ShowUI();
         LockdownSystem.UpdateUI(this);
         state = LockDownState.doing;
         yield return new WaitUntil(() => spawnersEmpty == true || liveBoxCount > boxLimit); //Target reached or Player fails
+        if(liveBoxCount > boxLimit)
+        {
+            //Show UI saying the player lost
+            //Wait a bit
+            yield return new WaitForSeconds(3f);
+            //Destroy all the boxes in the room
+            resetter.ResetRoom();
+            //Reset the spawners
+            foreach(BoxSpawner spawner in spawners)
+            {
+                spawner.ResetSpawner();
+            }
+            //Put Player back at start of lockdown
+            Player.singleton.transform.position = resetTransform.position;
+            //Start Lockdown again
+            LockdownSystem.ShowUI(false);
+            liveBoxCount = 0;
+            StartCoroutine(StartLockDown(true));
+            yield break;
+        }
         state = LockDownState.finishing;
         LockdownSystem.ShowUI(false);
         //if player fails

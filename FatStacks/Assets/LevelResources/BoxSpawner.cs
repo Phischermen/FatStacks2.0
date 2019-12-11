@@ -16,12 +16,15 @@ public class BoxSpawner : MonoBehaviour
     public bool isFinite;
     public int seed;
 
+    public int originalAmount;
+
     protected Coroutine coroutine;
     protected System.Random random;
 
     // Start is called before the first frame update
     void Start()
     {
+        originalAmount = amount;
         random = new System.Random(seed);
         TurnSpawnerOn(startActive);
     }
@@ -52,5 +55,13 @@ public class BoxSpawner : MonoBehaviour
                 yield return new WaitForSeconds(Random.Range(minInterval, maxInterval));
         }
         StopCoroutine(coroutine);
+    }
+
+    public void ResetSpawner()
+    {
+        amount = originalAmount;
+        random = new System.Random(seed);
+        StopCoroutine(coroutine);
+        TurnSpawnerOn(false);
     }
 }

@@ -23,7 +23,11 @@ public class PuzzleRewardSystem : MonoBehaviour
     }
     public static void SpawnReward(Vector3 location)
     {
-        Instantiate(singleton.rewards[i], location, Quaternion.identity);
-        i++;
+        if(singleton?.rewards != null && i < singleton.rewards.Length)
+        {
+            Instantiate(singleton.rewards[i], location, Quaternion.identity);
+            i++;
+        }
+        
     }
 }

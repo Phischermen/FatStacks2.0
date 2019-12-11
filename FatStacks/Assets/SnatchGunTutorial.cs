@@ -32,6 +32,7 @@ public class SnatchGunTutorial : MonoBehaviour
         Player.singleton.UI.SetActive(true);
         MatchGun matchGun = (MatchGun)Player.singleton.myPickup.gunController.arsenal[(int)ArsenalSystem.GunType.match]._gun;
         matchGun.onMatch.AddListener(work.Trigger);
+        matchGun.onMatch.AddListener(notWork.DisableTrigger);
         matchGun.onFailMatch.AddListener(notWork.Trigger);
     }
 }

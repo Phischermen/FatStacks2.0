@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5a987eb83e60df45bac4639f0d9af4b, type: 3}
+  m_Name: Keys1
+  m_EditorClassIdentifier: 
+  icon: {fileID: 0}
+  dialogue: "The way to the main warehouse is behind that steel door. It\u2019s locked
+    with three locks."
+  clip: {fileID: 8300000, guid: 249b6c5d086886d40aa44a08740b6ce5, type: 3}
+  pause: 0.1

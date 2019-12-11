@@ -27,6 +27,7 @@ public class ItemLog : MonoBehaviour
     {
         GameObject entry = Instantiate(singleton.logEntry, singleton.transform);
         entry.GetComponent<Text>().text = text;
+        entry.GetComponent<LogEntry>().node = ItemLog.singleton.log.AddFirst(entry.gameObject);
         singleton.ArrangeEntries();
     }
 

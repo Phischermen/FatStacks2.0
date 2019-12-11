@@ -12,7 +12,6 @@ public class BoxInventoryDisplay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     public void AddBox(GameObject obj)

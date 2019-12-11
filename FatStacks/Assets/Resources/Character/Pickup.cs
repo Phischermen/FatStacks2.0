@@ -210,7 +210,7 @@ public class Pickup : MonoBehaviour
             else
             {
                 dropLocations[0] = transform.position + (transform.rotation * (Vector3.forward * distance) - carriedItem.centerLocalTransform);
-                dropCoords[0] = placementGrid.WorldToCell(dropLocations[0]);
+                dropCoords[0] = placementGrid.WorldToCell(dropLocations[0] + carriedItem.centerLocalTransform);
                 canDropAtCoords[1] = false;
                 showDrop[1] = false;
             }

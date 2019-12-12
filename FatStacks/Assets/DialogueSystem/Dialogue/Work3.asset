@@ -15,4 +15,4 @@ MonoBehaviour:
   icon: {fileID: 0}
   dialogue: Oh! No I didn't. Let me try again.
   clip: {fileID: 8300000, guid: 24ef8d6577102c64ba68df792ad8820e, type: 3}
-  pause: 0.1
+  pause: 1

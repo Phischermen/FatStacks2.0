@@ -12,8 +12,11 @@ public class Tutorial : MonoBehaviour
     protected TutorialTextController tutorialTextController;
 
     protected bool triggered = false;
+    [HideInInspector]
     public bool ready = false;
+    [HideInInspector]
     public bool done = false;
+    public bool repeatable = false;
     public UnityEvent onComplete;
 
     // Start is called before the first frame update
@@ -38,5 +41,9 @@ public class Tutorial : MonoBehaviour
         GameObject tutorialUI = Player.transform.Find("UI/Tutorial").gameObject;
         tutorialUITextFader = tutorialUI.GetComponent<Fade>();
         tutorialTextController = tutorialUI.GetComponent<TutorialTextController>();
+    }
+    public virtual void ResetTutorial()
+    {
+        ready = done = triggered = false;
     }
 }

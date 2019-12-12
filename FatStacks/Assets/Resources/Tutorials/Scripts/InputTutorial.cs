@@ -31,6 +31,14 @@ public class InputTutorial : Tutorial
             inputPressed[i] = false;
         }
     }
+    public override void ResetTutorial()
+    {
+        base.ResetTutorial();
+        for(int i = 0; i < inputPressed.Length; ++i)
+        {
+            inputPressed[i] = false;
+        }
+    }
     // Update is called once per frame
     void Update()
     {

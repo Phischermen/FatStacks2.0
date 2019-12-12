@@ -23,8 +23,11 @@ public class LockDown : MonoBehaviour
     public Transform resetTransform;
 
     [Header("Queue Doors, Lights, etc.")]
+    public ConversationTrigger beforeConversation;
+    public ConversationTrigger afterConversation;
     public UnityEvent onEnter;
     public UnityEvent onComplete;
+    
     private bool triggered = false;
 
     private enum LockDownState
@@ -105,7 +108,15 @@ public class LockDown : MonoBehaviour
             lockdownAnnounce.SetActive(true);
             lockdownBackground.SetActive(true);
             yield return new WaitForSeconds(3f);
+            Player.singleton.UI.SetActive(true);
             lockdownAnnounce.SetActive(false);
+            lockdownBackground.SetActive(false);
+            //Trigger conversation
+            beforeConversation.Trigger();
+            beforeConversation.conversation.SetProgress(0);
+            yield return new WaitUntil(() => beforeConversation.conversation.Done());
+            Player.singleton.UI.SetActive(false);
+            lockdownBackground.SetActive(true);
             lockdownTutorial1.SetActive(true);
             yield return new WaitUntil(() => Input.GetButtonDown("Interact/Pickup"));
             yield return new WaitForSeconds(0.1f);
@@ -151,14 +162,10 @@ public class LockDown : MonoBehaviour
         }
         state = LockDownState.finishing;
         LockdownSystem.ShowUI(false);
-        //if player fails
-        //Queue GameOver
-        //Stop Music
-        //MusicManager.singleton.PlayTrack(null);
-        //Else
         //Unlock doors
         //Restore lights, music, doors etc.
         onComplete.Invoke();
         MusicManager.singleton.QueueUpNextTrack(null);
+        afterConversation.Trigger();
     }
 }

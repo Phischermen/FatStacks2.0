@@ -20,8 +20,11 @@ public class DialogueManager : MonoBehaviour
     static private Image background;
     static private AudioSource source;
 
+    static public bool isPlayingConversation;
+
     public enum InteruptionMode{
         doNotInterupt,
+        interuptAndClearQueue,
         interuptAndDoNotResume,
         interuptAndResume,
 
@@ -51,9 +54,16 @@ public class DialogueManager : MonoBehaviour
                 conversationQueue.Enqueue(conversation);
                 progressStack.Push(0);
                 break;
+            case InteruptionMode.interuptAndClearQueue:
+                conversationQueue.Clear();
+                if (conversationStack.Count > 0) conversationStack.Pop();
+                progressStack.Push(0);
+                conversationStack.Push(conversation);
+                playConversationFromStackNow = true;
+                break;
             case InteruptionMode.interuptAndDoNotResume:
                 if(conversationStack.Count > 0) conversationStack.Pop();
-                if(progressStack.Count > 0) progressStack.Pop();
+                //if(progressStack.Count > 0) progressStack.Pop();
                 progressStack.Push(0);
                 conversationStack.Push(conversation);
                 playConversationFromStackNow = true;
@@ -109,6 +119,7 @@ public class DialogueManager : MonoBehaviour
             {
                 //Show
                 ShowDialogueBox(true);
+                isPlayingConversation = true;
                 Dialogue dialogue = currentConversation.GetCurrent();
                 //Play the dialogue
                 source.clip = dialogue.clip;
@@ -121,6 +132,7 @@ public class DialogueManager : MonoBehaviour
             {
                 currentConversation.onComplete.Invoke();
                 ShowDialogueBox(false);
+                isPlayingConversation = false;
             }
         }
     }

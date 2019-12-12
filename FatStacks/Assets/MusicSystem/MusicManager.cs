@@ -45,6 +45,7 @@ public class MusicManager : MonoBehaviour
     public void PlayTrack(MusicTrack track)
     {
         musicSource.Stop();
+        nextTrack = null;
         currTrack = track;
         if (musicRoutine != null)
             StopCoroutine(musicRoutine);

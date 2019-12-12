@@ -11,12 +11,15 @@ public class ConversationTrigger : MonoBehaviour
     [Tooltip("Some conversation triggers are meant to trigger the same conversation. Set those triggers so that they share the same key. If left as -1, this trigger will automatically be given a unique key")]
     public int key = -1;
     public DialogueManager.InteruptionMode interuptionMode;
+    [Tooltip("Only trigger conversation when the dialogue system isn't playing any other conversations")]
+    public bool onlyTriggerIfNoActiveConversation;
     public Material triggeredMaterial;
     public bool triggered = false;
 
     public Conversation conversation;
     public Conversation[] additionalConversations;
 
+    public UnityEvent onTrigger;
     public UnityEvent onComplete;
 
     private void Start()
@@ -52,11 +55,16 @@ public class ConversationTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if(onlyTriggerIfNoActiveConversation && DialogueManager.isPlayingConversation)
+        {
+            return;
+        }
         Trigger();
     }
 
     public void Trigger()
     {
+        onTrigger.Invoke();
         if (!triggered)
         {
             foreach (ConversationTrigger trigger in conversationTriggers[key])

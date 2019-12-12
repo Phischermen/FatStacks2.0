@@ -18,4 +18,9 @@ public class Conversation : ScriptableObject
 
     [HideInInspector]
     public UnityEvent onComplete;
+
+    private void OnEnable()
+    {
+        progress = 0;
+    }
 }

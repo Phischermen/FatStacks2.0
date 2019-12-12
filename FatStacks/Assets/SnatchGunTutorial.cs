@@ -11,12 +11,18 @@ public class SnatchGunTutorial : MonoBehaviour
     [Header("Conversations")]
     public ConversationTrigger work;
     public ConversationTrigger notWork;
+    public InputTutorial fire;
     
     public void Trigger()
     {
         StartCoroutine(GiveTutorial());
     }
-
+    public void SetListeners()
+    {
+        MatchGun matchGun = (MatchGun)Player.singleton.myPickup.gunController.arsenal[(int)ArsenalSystem.GunType.match]._gun;
+        matchGun.onMatch.AddListener(work.Trigger);
+        matchGun.onMatch.AddListener(notWork.DisableTrigger);
+    }
     IEnumerator GiveTutorial()
     {
         Player.singleton.UI.SetActive(false);
@@ -31,8 +37,7 @@ public class SnatchGunTutorial : MonoBehaviour
         background.SetActive(false);
         Player.singleton.UI.SetActive(true);
         MatchGun matchGun = (MatchGun)Player.singleton.myPickup.gunController.arsenal[(int)ArsenalSystem.GunType.match]._gun;
-        matchGun.onMatch.AddListener(work.Trigger);
-        matchGun.onMatch.AddListener(notWork.DisableTrigger);
         matchGun.onFailMatch.AddListener(notWork.Trigger);
+        fire.TriggerTutorial();
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class VaultDoorInteraction : DoorInteraction
 {
     private static VaultDoorInteraction singleton;
+    public ConversationTrigger conversation;
 
     private static int keys;
     public static void AddKey()
@@ -12,6 +13,7 @@ public class VaultDoorInteraction : DoorInteraction
         keys += 1;
         if (keys == 3)
         {
+            singleton.conversation.DisableTrigger();
             singleton.isBusy = false;
             singleton.TwistLock(false);
         }

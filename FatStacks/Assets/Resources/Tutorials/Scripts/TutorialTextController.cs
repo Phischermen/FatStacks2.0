@@ -42,7 +42,15 @@ public class TutorialTextController : MonoBehaviour
         {
             if (activeTutorial.done == true)
             {
-                Destroy(activeTutorial.gameObject);
+                if (!activeTutorial.repeatable)
+                {
+                    Destroy(activeTutorial.gameObject);
+                }
+                else
+                {
+                    activeTutorial.ResetTutorial();
+                }
+                
             }
             else
             {

@@ -10,9 +10,12 @@ public class PuzzleSystem : MonoBehaviour
     public AudioSource source;
 
     private static Coroutine laurelCoroutine;
+    private static Coroutine resetCoroutine;
+
+    public static bool Reseting { get; private set; }
 
     private static readonly string laurelString = "<size=40>Puzzle Solved!!!</size>";
-    private static readonly string failiureString = "<size=40>Puzzle Impossible.</size>\nMouse2 to reset";
+    private static readonly string resetString = "<size=40>Exit Area To Confirm Reset.</size>\nMouse3 to cancel Reset";
     private static readonly string scoreFormatString = "\n<size=15>Points: {0}</size>";
     private static readonly string hundredPercentClearBonusString = "\n<size=15>Perfect Clear Bonus: +1000</size>";
     private static readonly string noResetBonusString = "\n<size=15>No Reset Bonus: +1000</size>";
@@ -41,8 +44,11 @@ public class PuzzleSystem : MonoBehaviour
         ShowUI(true);
         singleton.source.Play();
         puzzle.solved = true;
+        puzzle.ShowBoundry(false);
         
         if(laurelCoroutine != null) singleton.StopCoroutine(laurelCoroutine);
+        if(resetCoroutine != null) singleton.StopCoroutine(resetCoroutine);
+        Reseting = false;
         laurelCoroutine = singleton.StartCoroutine(Laurel());
         int points = 0;
         singleton.laurelText.text = laurelString;
@@ -61,9 +67,34 @@ public class PuzzleSystem : MonoBehaviour
         ComboSystem.AddPoints(points);
     }
 
+    public static void ResetPuzzle(Puzzle puzzle)
+    {
+        if(Reseting == false)
+        {
+            ShowUI(true);
+            resetCoroutine = singleton.StartCoroutine(ResetPuzzleRoutine(puzzle));
+        }
+    }
+
     static IEnumerator Laurel()
     {
         yield return new WaitUntil(()=> !singleton.source.isPlaying);
         ShowUI(false);
+    }
+
+    static IEnumerator ResetPuzzleRoutine(Puzzle puzzle)
+    {
+        Reseting = true;
+        puzzle.ShowBoundry(true);
+        singleton.laurelText.text = resetString;
+        yield return new WaitForSeconds(0.1f);
+        yield return new WaitUntil(() => puzzle.IsInPuzzleBoundry(Player.singleton.transform.position) == false || Input.GetButtonDown("Fire3"));
+        if (!Input.GetButtonDown("Fire3"))
+        {
+            puzzle.ResetPuzzle();
+        }
+        ShowUI(false);
+        puzzle.ShowBoundry(false);
+        Reseting = false;
     }
 }

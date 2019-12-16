@@ -77,17 +77,14 @@ public class MatchGun : Gun
     }
     public override void fire2(Ray ray)
     {
-        if(Player.singleton.myPickup.carriedObjects.Count > 0) //Don't reset anything if player is carrying boxes
-        {
-            return;
-        }
-        RaycastHit hit_info;
-        bool object_found = Physics.Raycast(ray, out hit_info, float.MaxValue, LayerMask.GetMask("Default", "InteractSolid"));
-        Puzzle puzzle = hit_info.transform?.GetComponent<Box>()?.puzzle;
-        if (object_found && puzzle != null)
-        {
-            puzzle.ResetPuzzle();
-        }
+        
+        //RaycastHit hit_info;
+        //bool object_found = Physics.Raycast(ray, out hit_info, float.MaxValue, LayerMask.GetMask("Default", "InteractSolid"));
+        //Puzzle puzzle = hit_info.transform?.GetComponent<Box>()?.puzzle;
+        //if (object_found && puzzle != null)
+        //{
+        //    puzzle.ResetPuzzle();
+        //}
     }
     public override bool canFire()
     {

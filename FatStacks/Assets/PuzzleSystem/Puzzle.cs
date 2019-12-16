@@ -145,7 +145,7 @@ public class Puzzle : MonoBehaviour
         {
             puzzleWasReset = true;
             resetter.ResetRoom();
-            foreach(Box box in originalBoxList)
+            foreach (Box box in originalBoxList)
             {
                 Destroy(box.gameObject);
             }
@@ -161,6 +161,7 @@ public class Puzzle : MonoBehaviour
             onImpossible.Invoke();
         }
     }
+
     public void AccumulateBoxesAndScore(int boxes, int score)
     {
         accumulatedBoxes += boxes;

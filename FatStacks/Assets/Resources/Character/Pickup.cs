@@ -241,8 +241,8 @@ public class Pickup : MonoBehaviour
                 {
                     insideOfPuzzleBounds = carriedItem.puzzle.IsInPuzzleBoundry(dropLocations[i]);
                 }
-                if (!obstructionNotDetected) { exception.FadeInText("NO SPACE"); }
-                if (!insideOfPuzzleBounds) { exception.FadeInText("OUT OF BOUNDS"); }
+                if (i==0 && (!obstructionNotDetected || !clippingNotDetected)) { exception.FadeInText("NO SPACE"); }
+                if (i==0 && !insideOfPuzzleBounds) { exception.FadeInText("OUT OF BOUNDS"); }
                 canDropAtCoords[i] = canDropAtCoords[i] && obstructionNotDetected && clippingNotDetected && insideOfPuzzleBounds;
                 MaterialPropertyBlock properties = new MaterialPropertyBlock();
                 if (showDrop[i] && showPreview)
@@ -269,7 +269,7 @@ public class Pickup : MonoBehaviour
                     placementPreviews[i].gameObject.SetActive(false);
                 }
             }
-            if ((Input.GetButtonDown("Drop") || (Input.GetButtonDown("DropOnStack") && !canDropAtCoords[1])))
+            if ((Input.GetButtonDown("Drop") && canDropAtCoords[0]) || (Input.GetButtonDown("DropOnStack") && !canDropAtCoords[1]))
             {
                 DropObject(dropLocations[0], Quaternion.identity);
             }
@@ -282,6 +282,24 @@ public class Pickup : MonoBehaviour
         {
             placementPreviews[0].gameObject.SetActive(false);
             placementPreviews[1].gameObject.SetActive(false);
+            if (Input.GetButtonDown("Fire3"))
+            {
+                if (Player.singleton.myPickup.carriedObjects.Count > 0) //Don't reset anything if player is carrying boxes
+                {
+                    return;
+                }
+                Puzzle[] puzzles = FindObjectsOfType<Puzzle>();
+                Puzzle activePuzzle = null;
+                foreach (Puzzle puzzle in puzzles)
+                {
+                    if (puzzle.IsInPuzzleBoundry(Player.singleton.transform.position) == true)
+                    {
+                        activePuzzle = puzzle;
+                        break;
+                    }
+                }
+                if (activePuzzle) PuzzleSystem.ResetPuzzle(activePuzzle);
+            }
         }
         
         

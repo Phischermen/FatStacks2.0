@@ -236,14 +236,21 @@ public class Pickup : MonoBehaviour
                 }
                 bool obstructionNotDetected = !Physics.CheckBox(dropLocations[i] + new Vector3(0.5f, 0.55f, 0.5f), new Vector3(0.51f, 0.475f, 0.51f), Quaternion.identity, layerMaskObstructed);
                 bool clippingNotDetected = !Physics.CheckBox(dropLocations[i] + new Vector3(0.5f, 0.55f, 0.5f), new Vector3(0.51f, 0.475f, 0.51f), Quaternion.identity, layerMaskHide);
-                canDropAtCoords[i] = canDropAtCoords[i] && obstructionNotDetected && clippingNotDetected;
+                bool insideOfPuzzleBounds = true;
+                if (carriedItem.puzzle != null)
+                {
+                    insideOfPuzzleBounds = carriedItem.puzzle.IsInPuzzleBoundry(dropLocations[i]);
+                }
+                if (!obstructionNotDetected) { exception.FadeInText("NO SPACE"); }
+                if (!insideOfPuzzleBounds) { exception.FadeInText("OUT OF BOUNDS"); }
+                canDropAtCoords[i] = canDropAtCoords[i] && obstructionNotDetected && clippingNotDetected && insideOfPuzzleBounds;
                 MaterialPropertyBlock properties = new MaterialPropertyBlock();
                 if (showDrop[i] && showPreview)
                 {
                     placementPreviews[i].gameObject.SetActive(true);
+                    prompt.FadeInText("<b>[R]</b>Place");
                     if (canDropAtCoords[i])
                     {
-                        prompt.FadeInText("<b>[R]</b>Place");
                         placementPreviews[i].SetValid(true);
                         //properties.SetColor("_Color", new Color(0.7f, 0.89f, 1f, 0.75f));
                     }
@@ -262,7 +269,7 @@ public class Pickup : MonoBehaviour
                     placementPreviews[i].gameObject.SetActive(false);
                 }
             }
-            if ((Input.GetButtonDown("Drop") || (Input.GetButtonDown("DropOnStack") && !canDropAtCoords[1])) && canDropAtCoords[0])
+            if ((Input.GetButtonDown("Drop") || (Input.GetButtonDown("DropOnStack") && !canDropAtCoords[1])))
             {
                 DropObject(dropLocations[0], Quaternion.identity);
             }
@@ -324,6 +331,10 @@ public class Pickup : MonoBehaviour
 
     public void PickupObject(Box lift)
     {
+        if(lift.puzzle != null)
+        {
+            lift.puzzle.ShowBoundry(true);
+        }
         carriedItem = lift;
         carriedObjects.Push(lift);
         boxInventoryDisplay.AddBox(lift.inventoryIcon);
@@ -341,19 +352,18 @@ public class Pickup : MonoBehaviour
     {
         Box droppedItem = carriedObjects.Peek();
         //Transfering object to another grid.
-        if (droppedItem.grid != placementGrid)
+        if(droppedItem.puzzle != null)
         {
-            if(droppedItem.puzzle == null)
+            if (!droppedItem.puzzle.IsInPuzzleBoundry(location))
             {
-                droppedItem.grid = placementGrid;
-                droppedItem.transform.SetParent(placementGrid.transform);
-            }
-            else
-            {
-                exception.FlashText("Box Does Not Belong To This Puzzle");
+                exception.FlashText("OUT OF BOUNDS");
                 return;
             }
+            droppedItem.puzzle.ShowBoundry(false);
         }
+        droppedItem.grid = placementGrid;
+        droppedItem.transform.SetParent(placementGrid.transform);
+        
         carriedObjects.Pop();
         placementPreviews[0].gameObject.SetActive(false);
         placementPreviews[1].gameObject.SetActive(false);

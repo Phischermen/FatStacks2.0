@@ -18,12 +18,41 @@ public class Puzzle : MonoBehaviour
     [HideInInspector]
     public bool solved = false;
 
+    private LineRenderer boundryLineRenderer;
+    private Bounds boundry;
     public UnityEvent onImpossible;
 
     private void Start()
     {
         resetter = GetComponent<ChildrenResetter>();
+        boundryLineRenderer = GetComponent<LineRenderer>();
+        
         quota = transform.childCount - 1;
+
+        //Populate line renderer
+        BoxCollider boxCollider = GetComponent<BoxCollider>();
+        Vector3 center = boxCollider.center;
+        Vector3 size = boxCollider.size * 0.5f;
+        boundryLineRenderer.positionCount = 4;
+        boundryLineRenderer.loop = true;
+        boundryLineRenderer.SetPosition(0, new Vector3(center.x + size.x, center.y - size.y, center.z + size.z));
+        boundryLineRenderer.SetPosition(1, new Vector3(center.x + size.x, center.y - size.y, center.z - size.z));
+        boundryLineRenderer.SetPosition(2, new Vector3(center.x - size.x, center.y - size.y, center.z - size.z));
+        boundryLineRenderer.SetPosition(3, new Vector3(center.x - size.x, center.y - size.y, center.z + size.z));
+
+        //Set bounds
+        boundry = boxCollider.bounds;
+        boundry.Expand(0.1f);
+    }
+
+    public void ShowBoundry(bool show)
+    {
+        boundryLineRenderer.enabled = show;
+    }
+
+    public bool IsInPuzzleBoundry(Vector3 location)
+    {
+        return boundry.Contains(location);
     }
 
     public void Update()

@@ -120,7 +120,7 @@ public class ArsenalSystem : MonoBehaviour
 
     void FixedUpdate()
     {
-        canFire = (equippedGunIndex != (int)GunType.none && equippedGun?.canFire() == true && Cursor.lockState == CursorLockMode.Locked);
+        canFire = (equippedGunIndex != (int)GunType.none && equippedGun?.canFire() == true && Cursor.lockState == CursorLockMode.Locked && Player.singleton.UI.activeSelf);
         if (canFire)
         {
             if (fire1)

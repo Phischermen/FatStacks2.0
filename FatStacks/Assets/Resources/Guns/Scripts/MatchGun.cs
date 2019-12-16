@@ -15,6 +15,7 @@ public class MatchGun : Gun
         bool object_found = Physics.Raycast(ray, out hit_info, float.MaxValue, LayerMask.GetMask("Default", "InteractSolid", "Helicopter"));
         if (object_found && hit_info.transform.GetComponent<Box>() != null)
         {
+            Puzzle puzzle = hit_info.transform.gameObject.GetComponent<Box>().puzzle;
             List<Box> boxs = hit_info.transform.gameObject.GetComponent<Box>().GetMatchingNeighbors();
             int count = boxs.Count;
             if (count >= 3)
@@ -47,6 +48,11 @@ public class MatchGun : Gun
                     }
                     Instantiate(item.boxData.destructionPrefab[(int)item.groupId], item.transform.position,Quaternion.identity);
                     Destroy(item.gameObject);
+                    DestroyImmediate(item);
+                }
+                if (puzzle)
+                {
+                    puzzle.CheckIsPossible(true);
                 }
                 if (!puzzleReset)
                 {

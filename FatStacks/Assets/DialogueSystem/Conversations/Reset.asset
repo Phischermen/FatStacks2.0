@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a4601e845623a44eb0325356c5a84bb, type: 3}
+  m_Name: Reset
+  m_EditorClassIdentifier: 
+  dialogue:
+  - {fileID: 11400000, guid: f282bb0c44f5de842867076a9cd56b00, type: 2}
+  - {fileID: 11400000, guid: e7ccdd1fc77ee604ca6563197348256d, type: 2}
+  - {fileID: 11400000, guid: 0c0fa1b694a00c740a6a7a51ec3dfc67, type: 2}
+  - {fileID: 11400000, guid: a66e4a1033fadcd4885893536d89e328, type: 2}
+  - {fileID: 11400000, guid: 62aecc7c5a3dd1a41a59a1f5a723c9c1, type: 2}
+  - {fileID: 11400000, guid: eba22f3a9f0870b478ab026f7507ff5f, type: 2}
+  onComplete:
+    m_PersistentCalls:
+      m_Calls: []

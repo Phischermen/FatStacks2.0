@@ -57,11 +57,11 @@ public class TutorialTextController : MonoBehaviour
                 activeTutorial.gameObject.SetActive(false);
             }
         }
-        textFader.fadeOutText();
+        textFader.FadeOutText();
         yield return new WaitUntil(IsTextFadedOut);
         if(newTutorial != null)
         {
-            textFader.fadeInText(newTutorial.tutorialHeader);
+            textFader.FadeInText(newTutorial.tutorialHeader, true, -1f);
             activeTutorial = newTutorial;
             activeTutorial.ready = true;
             activeTutorial.gameObject.SetActive(true);

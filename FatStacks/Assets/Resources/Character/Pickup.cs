@@ -94,14 +94,12 @@ public class Pickup : MonoBehaviour
                             nextState = PickupState.interactObjectTargeted;
                             targetedItemInteraction = targetedObject.GetComponent<Interaction>();
                             busy = targetedItemInteraction.IsBusy();
-                            if(!busy)
-                                RefreshText();
+                            
                             break;
                         case "Liftable":
                             nextState = PickupState.pickupObjectTargeted;
                             targetedItemBox = targetedObject.GetComponent<Box>();
                             busy = false;
-                            prompt.fadeInText("<b>[E]</b>LIFT");
                             break;
                         default:
                             break;
@@ -118,6 +116,7 @@ public class Pickup : MonoBehaviour
 
                 break;
             case PickupState.interactObjectTargeted:
+                if (!targetedItemInteraction.IsBusy()) RefreshText();
                 if (InteractTargetLost(objectFound, hitInfo))
                 {
                     //Object not targeted anymore
@@ -139,6 +138,7 @@ public class Pickup : MonoBehaviour
                 }
                 else
                 {
+                    prompt.FadeInText("<b>[E]</b>Lift");
                     bool pickup = false;
                     Box box = targetedItemBox;
                     if (Input.GetButtonDown("Interact/Pickup"))
@@ -152,28 +152,29 @@ public class Pickup : MonoBehaviour
                         pickup = true;
                         box = targetedItemBox.GetBoxOnTopOfMyStack();
                     }
-                    if (pickup)
+                    if(carriedObjects.Count == 0) //TODO Find way to show exceptions for picking up and placing seperately
                     {
                         if (box.isTooHeavy)
                         {
-                            exception.FlashText("TOO HEAVY", 2f);
+                            exception.FadeInText("TOO HEAVY");
                         }
                         else if (carriedObjects.Count == carryObjectLimit)
                         {
-                            exception.FlashText("INVENTORY FULL", 2f);
+                            exception.FadeInText("INVENTORY FULL");
                         }
-                        //else if (box.GetBoxOnTopOfMe() != null)
-                        //{
-
-                        //    exception.FlashText("BOX BLOCKED", 2f);
-                        //}
-                        else
+                        else if (pickup)
                         {
                             PickupObject(box);
                         }
                     }
                 }
+                //else if (box.GetBoxOnTopOfMe() != null)
+                //{
+
+                //    exception.FlashText("BOX BLOCKED", 2f);
+                //}
                 break;
+                
         }
         if(carriedObjects.Count > 0 && currentPickupState != PickupState.interactObjectTargeted)
         { 
@@ -242,13 +243,13 @@ public class Pickup : MonoBehaviour
                     placementPreviews[i].gameObject.SetActive(true);
                     if (canDropAtCoords[i])
                     {
-                        prompt.fadeInText("<b>[R]</b>PLACE");
+                        prompt.FadeInText("<b>[R]</b>Place");
                         placementPreviews[i].SetValid(true);
                         //properties.SetColor("_Color", new Color(0.7f, 0.89f, 1f, 0.75f));
                     }
                     else
                     {
-                        prompt.fadeOutText();
+                        prompt.FadeOutText();
                         placementPreviews[i].SetValid(false);
                         //properties.SetColor("_Color", new Color(1f, 0.89f, 0.7f, 0.75f));
                     }
@@ -338,19 +339,30 @@ public class Pickup : MonoBehaviour
 
     public void DropObject(Vector3 location, Quaternion rotation)
     {
+        Box droppedItem = carriedObjects.Peek();
+        //Transfering object to another grid.
+        if (droppedItem.grid != placementGrid)
+        {
+            if(droppedItem.puzzle == null)
+            {
+                droppedItem.grid = placementGrid;
+                droppedItem.transform.SetParent(placementGrid.transform);
+            }
+            else
+            {
+                exception.FlashText("Box Does Not Belong To This Puzzle");
+                return;
+            }
+        }
+        carriedObjects.Pop();
         placementPreviews[0].gameObject.SetActive(false);
         placementPreviews[1].gameObject.SetActive(false);
-        Box droppedItem = carriedObjects.Pop();
+        
         boxInventoryDisplay.RemoveBox();
         if (carriedObjects.Count > 0)
             carriedItem = carriedObjects.Peek();
             //SetCarriedItemMeshMaterialAndRigidbody(carriedObjects.Peek());
-        //Transfering object to another grid.
-        if (droppedItem.grid != placementGrid)
-        {
-            droppedItem.grid = placementGrid;
-            droppedItem.transform.SetParent(placementGrid.transform);
-        }
+        
         droppedItem.AddMyself(true);
         droppedItem.gameObject.SetActive(true);
         //Remove constraints of rigidbody
@@ -369,7 +381,7 @@ public class Pickup : MonoBehaviour
 
     public void RefreshText()
     {
-        prompt.fadeInText("<b>[E]</b>" + targetedItemInteraction.GetPrompt());
+        prompt.FadeInText("<b>[E]</b>" + targetedItemInteraction.GetPrompt());
     }
 
     private bool InteractTargetLost(bool objectFound,RaycastHit hit)
@@ -385,7 +397,7 @@ public class Pickup : MonoBehaviour
     private void LoseTarget()
     {
         //Object not targeted anymore
-        prompt.fadeOutText();
+        prompt.FadeOutText();
         currentPickupState = PickupState.noObjectTargeted;
     }
 }

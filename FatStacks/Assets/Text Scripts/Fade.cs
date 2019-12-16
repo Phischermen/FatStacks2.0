@@ -50,23 +50,29 @@ public class Fade : MonoBehaviour
                 state = prompt_state.fading_out;
         }
     }
-    public void fadeInText(string message)
-    {
-        state = prompt_state.fading_in;
-        uiText.text = message;
-    }
-    public void fadeOutText()
+    public void FadeOutText()
     {
         state = prompt_state.fading_out;
         t = -1f;
     }
-    public void FlashText(string message, float time)
+    public void FadeInText(string message, bool resetFade = false, float time = 0.1f)
+    {
+        uiText.text = message;
+        state = prompt_state.fading_in;
+        t = time;
+        if (resetFade)
+        {
+            alpha = 0f;
+            canvasRenderer.SetAlpha(alpha);
+        }
+    }
+    public void FlashText(string message, float time = 1f)
     {
         uiText.text = message;
         state = prompt_state.faded_in;
         t = time;
         alpha = 1f;
-        canvasRenderer.SetAlpha(1f);
+        canvasRenderer.SetAlpha(alpha);
     }
     private void LerpAlpha(float start, float target, prompt_state stateIfFinished)
     {

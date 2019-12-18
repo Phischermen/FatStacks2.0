@@ -269,7 +269,7 @@ public class Pickup : MonoBehaviour
                     placementPreviews[i].gameObject.SetActive(false);
                 }
             }
-            if ((Input.GetButtonDown("Drop") && canDropAtCoords[0]) || (Input.GetButtonDown("DropOnStack") && !canDropAtCoords[1]))
+            if ((Input.GetButtonDown("Drop") || (Input.GetButtonDown("DropOnStack") && !canDropAtCoords[1])) && canDropAtCoords[0])
             {
                 DropObject(dropLocations[0], Quaternion.identity);
             }

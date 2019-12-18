@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a987eb83e60df45bac4639f0d9af4b, type: 3}
   m_Name: SnatchGun4
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
-  dialogue: "I included the manual. Don\u2019t worry it\u2019s brief and simple. Perhaps
-    you can take a second to look at it."
+  icon: {fileID: 21300000, guid: 68fb4235b804ef641b1939ab427d2685, type: 3}
+  dialogue: "I included the manual. It\u2019s real brief. Perhaps you can look at
+    it."
   clip: {fileID: 8300000, guid: 3880c5c05e16bd64b90792a57aae0040, type: 3}
   pause: 0.1

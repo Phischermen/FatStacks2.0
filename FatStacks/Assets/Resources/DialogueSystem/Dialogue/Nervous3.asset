@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a987eb83e60df45bac4639f0d9af4b, type: 3}
   m_Name: Nervous3
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
-  dialogue: "Trust me, this will be the easiest job in your entire life. I picked
-    this one out especially for you. No security, no traps, no nothing. I cased this
-    place out and our biggest issue is how we\u2019re going to haul out so much loot!
-    Speaking of which, check the showers, I left you something."
+  icon: {fileID: 21300000, guid: 04c303a1d91bb274db27366ad3dcdd1a, type: 3}
+  dialogue: "Trust me, this will be the easiest job in your entire life. No security,
+    no traps, no nothing. Our biggest issue is how we\u2019re going to get so much
+    loot out of here!"
   clip: {fileID: 8300000, guid: b8cc3a5e26e8a83478563aee2c531d81, type: 3}
   pause: 0.1

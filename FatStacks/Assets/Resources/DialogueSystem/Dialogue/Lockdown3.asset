@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a987eb83e60df45bac4639f0d9af4b, type: 3}
   m_Name: Lockdown3
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 04c303a1d91bb274db27366ad3dcdd1a, type: 3}
   dialogue: I mean, I just left THIS trap active because I knew you could handle it!
     The rest are disabled I promise.
   clip: {fileID: 8300000, guid: 76e487bbbc5c6524db8003ed4e109cd3, type: 3}

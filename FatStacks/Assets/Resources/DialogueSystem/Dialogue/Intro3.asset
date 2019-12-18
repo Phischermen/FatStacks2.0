@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a987eb83e60df45bac4639f0d9af4b, type: 3}
   m_Name: Intro3
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
-  dialogue: Great! Head towards the warehouse and I'll tell you how to get in.
+  icon: {fileID: 21300000, guid: 04c303a1d91bb274db27366ad3dcdd1a, type: 3}
+  dialogue: Great! Head towards the <color=yellow>warehouse</color>. I'll tell you
+    how to get in.
   clip: {fileID: 8300000, guid: 0d631f5e6d0646745a71a7f0002a156e, type: 3}
   pause: 0.5

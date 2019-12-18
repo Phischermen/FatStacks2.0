@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a987eb83e60df45bac4639f0d9af4b, type: 3}
   m_Name: NotGonnaOpen
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 68fb4235b804ef641b1939ab427d2685, type: 3}
   dialogue: "That\u2019s not gonna open without all the keys. I\u2019ll bet they\u2019re
-    underneath these boxes. Try looting the boxes, and you might find a key."
+    underneath these boxes. Try looting the boxes. Maybe you might find a key."
   clip: {fileID: 8300000, guid: edcf90a431091c844b0b2cb667701f7a, type: 3}
   pause: 0.1

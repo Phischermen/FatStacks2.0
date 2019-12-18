@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a987eb83e60df45bac4639f0d9af4b, type: 3}
   m_Name: Test3
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 2b6610047391e4b478b550ae14fbbaae, type: 3}
   dialogue: '...audio test three.'
   clip: {fileID: 8300000, guid: 2eb8f23a332904644875ec06b1f04489, type: 3}
   pause: 0.1

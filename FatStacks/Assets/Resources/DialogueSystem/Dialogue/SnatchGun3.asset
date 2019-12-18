@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: SnatchGun3
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
-  dialogue: Sounds easy. How do I use it?
+  dialogue: How do I use it?
   clip: {fileID: 8300000, guid: 755cb0650cea7c7419cc379fdc096ec4, type: 3}
   pause: 0.1

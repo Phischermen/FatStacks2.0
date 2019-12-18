@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a987eb83e60df45bac4639f0d9af4b, type: 3}
   m_Name: Lockdown5
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
-  dialogue: "Loot as fast as you can. I\u2019m working on ending this lockdown. I
-    promise you, this is not as bad as it looks!"
+  icon: {fileID: 21300000, guid: 710a5de505928574f81412bc2b62e06f, type: 3}
+  dialogue: "Loot as fast as you can. I\u2019m working on ending this lockdown. This
+    is not as bad as it looks!"
   clip: {fileID: 8300000, guid: 387ba735d26e52947ab2d1b3bf0fe064, type: 3}
   pause: 0.1

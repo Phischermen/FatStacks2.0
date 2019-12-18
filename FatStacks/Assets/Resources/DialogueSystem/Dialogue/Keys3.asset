@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a987eb83e60df45bac4639f0d9af4b, type: 3}
   m_Name: Keys3
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: cd88c51578a0770448c86f7b26da46db, type: 3}
   dialogue: "I don\u2019t know. My guess would be underneath these boxes. Why don\u2019t
     you try looting them, and maybe they\u2019ll show up."
   clip: {fileID: 8300000, guid: 1441da7bb67b13346a7e8227916d9413, type: 3}

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a987eb83e60df45bac4639f0d9af4b, type: 3}
   m_Name: SpeakingOfLoot
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
-  dialogue: Speaking of loot, check the showers, I left you something.
+  icon: {fileID: 21300000, guid: 04c303a1d91bb274db27366ad3dcdd1a, type: 3}
+  dialogue: Speaking of loot, check the <color=yellow>showers</color>, I left you
+    something.
   clip: {fileID: 8300000, guid: 75bb7ef85c23f7d4594ca0dafea9714a, type: 3}
   pause: 0.1

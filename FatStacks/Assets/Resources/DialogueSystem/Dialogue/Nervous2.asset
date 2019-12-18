@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Nervous2
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
-  dialogue: "Nah, I\u2019m good. Just trying not to think about getting caught."
+  dialogue: "I\u2019m good. Just trying to not think about getting caught."
   clip: {fileID: 8300000, guid: 356a159f3a85b234195cd2f56c5068fa, type: 3}
   pause: 0.1

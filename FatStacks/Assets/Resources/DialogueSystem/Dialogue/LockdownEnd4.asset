@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LockdownEnd4
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
-  dialogue: "Check out this fat pile right here! This is the pay day of a life time!
+  dialogue: "Check out this fat stack right here! This is the pay day of a life time!
     And we just got started!\r"
   clip: {fileID: 8300000, guid: 5f571a80b22138347acebfa8ba03368f, type: 3}
   pause: 0.1

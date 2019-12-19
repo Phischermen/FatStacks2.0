@@ -9,19 +9,21 @@ public class Gun : MonoBehaviour
 
     public int ammo;
     protected AudioSource gunAudioSource;
+    protected Animator gunAnimator;
 
     public void Start()
     {
         gunAudioSource = GetComponentInParent<AudioSource>();
+        gunAnimator = GetComponent<Animator>();
         ammo = Mathf.Clamp(ammo, 0, gunData.ammoCapacity);
     }
     public virtual void fire1(Ray ray)
     {
-
+        gunAnimator.SetTrigger("fire");
     }
     public virtual void fire2(Ray ray)
     {
-
+        gunAnimator.SetTrigger("fire");
     }
 
     public virtual float getAmmoFill()

@@ -80,6 +80,134 @@ public class Pickup : MonoBehaviour
             previewText.text = "<b>[V]Preview: </b>" + ((showPreview) ? "ON" : "OFF");
         }
 
+        if (carriedObjects.Count > 0 && currentPickupState != PickupState.interactObjectTargeted)
+        {
+            //Check distance mod
+            float scrollDelta = Input.GetAxis("DistanceModification");
+            if (scrollDelta != 0)
+            {
+                distance = Mathf.Clamp(distance + scrollDelta, distanceMin, distanceMax);
+            }
+
+            //Set initial drop location
+            dropCoords = new Vector3Int[] { Vector3Int.zero, Vector3Int.zero };
+            dropLocations = new Vector3[] { Vector3.zero, Vector3.zero };
+            canDropAtCoords = new bool[] { true, true };
+            showDrop = new bool[] { true, true };
+
+
+            if (objectFound && hitInfo.distance <= distance)
+            {
+                dropLocations[0] = hitInfo.point + (hitInfo.normal * 0.53f) - (snap ? Vector3.zero : carriedItem.centerLocalTransform);
+                dropCoords[0] = placementGrid.WorldToCell(dropLocations[0]);
+                Box box = hitInfo.transform.gameObject.GetComponent<Box>();
+                if (box != null)
+                {
+                    dropCoords[1] = box.GetBoxOnTopOfMyStack().GetHighestCoordAlignedWithStack() + Vector3Int.up;
+                    canDropAtCoords[1] = Vector3.Distance(transform.position, placementGrid.CellToWorld(dropCoords[1])) < distanceMax;
+                }
+                else
+                {
+                    placementPreviews[1].transform.position = placementPreviews[0].transform.position;
+                    placementPreviews[1].transform.rotation = placementPreviews[0].transform.rotation;
+                    canDropAtCoords[1] = false;
+                    showDrop[1] = false;
+                }
+            }
+            else
+            {
+                dropLocations[0] = transform.position + (transform.rotation * (Vector3.forward * distance) - carriedItem.centerLocalTransform);
+                dropCoords[0] = placementGrid.WorldToCell(dropLocations[0] + carriedItem.centerLocalTransform);
+                canDropAtCoords[1] = false;
+                showDrop[1] = false;
+            }
+            //Set pickup preview materials
+            if (!canDropAtCoords[1] || dropCoords[0] == dropCoords[1])
+            {
+                placementPreviews[0].SetPreview(carriedItem, PickupPreview.Prompt.r);
+                showDrop[1] = false;
+            }
+            else
+            {
+                placementPreviews[0].SetPreview(carriedItem, PickupPreview.Prompt.r);
+                placementPreviews[1].SetPreview(carriedItem, PickupPreview.Prompt.g);
+            }
+
+            //Convert back to world space
+            for (int i = 0; i < dropCoords.Length; ++i)
+            {
+                if (i > 0 || snap)
+                {
+                    dropLocations[i] = placementGrid.CellToWorld(dropCoords[i]);
+                }
+                bool obstructionNotDetected = !Physics.CheckBox(dropLocations[i] + new Vector3(0.5f, 0.55f, 0.5f), new Vector3(0.51f, 0.475f, 0.51f), Quaternion.identity, layerMaskObstructed);
+                bool clippingNotDetected = !Physics.CheckBox(dropLocations[i] + new Vector3(0.5f, 0.55f, 0.5f), new Vector3(0.51f, 0.475f, 0.51f), Quaternion.identity, layerMaskHide);
+                bool insideOfPuzzleBounds = true;
+                if (carriedItem.puzzle != null)
+                {
+                    insideOfPuzzleBounds = carriedItem.puzzle.IsInPuzzleBoundry(dropLocations[i]);
+                }
+                if (i == 0 && (!obstructionNotDetected || !clippingNotDetected)) { exception.FadeInText("NO SPACE"); }
+                if (i == 0 && !insideOfPuzzleBounds) { exception.FadeInText("OUT OF BOUNDS"); }
+                canDropAtCoords[i] = canDropAtCoords[i] && obstructionNotDetected && clippingNotDetected && insideOfPuzzleBounds;
+                MaterialPropertyBlock properties = new MaterialPropertyBlock();
+                if (showDrop[i] && showPreview)
+                {
+                    placementPreviews[i].gameObject.SetActive(true);
+                    prompt.FadeInText("<b>[R]</b>Place");
+                    if (canDropAtCoords[i])
+                    {
+                        placementPreviews[i].SetValid(true);
+                        //properties.SetColor("_Color", new Color(0.7f, 0.89f, 1f, 0.75f));
+                    }
+                    else
+                    {
+                        prompt.FadeOutText();
+                        placementPreviews[i].SetValid(false);
+                        //properties.SetColor("_Color", new Color(1f, 0.89f, 0.7f, 0.75f));
+                    }
+                    placementPreviews[i].gameObject.transform.position = Vector3.Lerp(placementPreviews[i].gameObject.transform.position, dropLocations[i], 0.25f);
+                    placementPreviews[i].gameObject.transform.rotation = Quaternion.Lerp(placementPreviews[i].gameObject.transform.rotation, Quaternion.identity, 0.25f);
+                    //Graphics.DrawMesh(carriedItemMesh, dropLocations[i], Quaternion.identity, carriedItemMaterial, 0, GetComponent<Camera>(), 0, properties, false);
+                }
+                else
+                {
+                    placementPreviews[i].gameObject.SetActive(false);
+                }
+            }
+            if ((Input.GetButtonDown("Drop") || (Input.GetButtonDown("DropOnStack") && !canDropAtCoords[1])) && canDropAtCoords[0])
+            {
+                DropObject(dropLocations[0], Quaternion.identity);
+            }
+            if (Input.GetButtonDown("DropOnStack") && canDropAtCoords[1])
+            {
+                DropObject(dropLocations[1], Quaternion.identity);
+            }
+        }
+        else
+        {
+            placementPreviews[0].gameObject.SetActive(false);
+            placementPreviews[1].gameObject.SetActive(false);
+            if (Input.GetButtonDown("Fire3"))
+            {
+                if (Player.singleton.myPickup.carriedObjects.Count > 0) //Don't reset anything if player is carrying boxes
+                {
+                    return;
+                }
+                Puzzle[] puzzles = FindObjectsOfType<Puzzle>();
+                Puzzle activePuzzle = null;
+                foreach (Puzzle puzzle in puzzles)
+                {
+                    if (puzzle.IsInPuzzleBoundry(Player.singleton.transform.position) == true)
+                    {
+                        activePuzzle = puzzle;
+                        break;
+                    }
+                }
+                if (activePuzzle) PuzzleSystem.ResetPuzzle(activePuzzle);
+            }
+        }
+
         switch (currentPickupState)
         {
             case PickupState.noObjectTargeted:
@@ -176,131 +304,7 @@ public class Pickup : MonoBehaviour
                 break;
                 
         }
-        if(carriedObjects.Count > 0 && currentPickupState != PickupState.interactObjectTargeted)
-        { 
-            //Check distance mod
-            float scrollDelta = Input.GetAxis("DistanceModification");
-            if (scrollDelta != 0)
-            {
-                distance = Mathf.Clamp(distance + scrollDelta, distanceMin, distanceMax);
-            }
-
-            //Set initial drop location
-            dropCoords = new Vector3Int[] { Vector3Int.zero, Vector3Int.zero };
-            dropLocations = new Vector3[] { Vector3.zero, Vector3.zero };
-            canDropAtCoords = new bool[] { true, true };
-            showDrop = new bool[] { true, true };
-
-            
-            if (objectFound && hitInfo.distance <= distance)
-            {
-                dropLocations[0] = hitInfo.point + (hitInfo.normal * 0.53f) - (snap ? Vector3.zero : carriedItem.centerLocalTransform);
-                dropCoords[0] = placementGrid.WorldToCell(dropLocations[0]);
-                Box box = hitInfo.transform.gameObject.GetComponent<Box>();
-                if (box != null)
-                {
-                    dropCoords[1] = box.GetBoxOnTopOfMyStack().GetHighestCoordAlignedWithStack() + Vector3Int.up;
-                    canDropAtCoords[1] = Vector3.Distance(transform.position, placementGrid.CellToWorld(dropCoords[1])) < distanceMax;
-                }
-                else
-                {
-                    canDropAtCoords[1] = false;
-                    showDrop[1] = false;
-                }
-            }
-            else
-            {
-                dropLocations[0] = transform.position + (transform.rotation * (Vector3.forward * distance) - carriedItem.centerLocalTransform);
-                dropCoords[0] = placementGrid.WorldToCell(dropLocations[0] + carriedItem.centerLocalTransform);
-                canDropAtCoords[1] = false;
-                showDrop[1] = false;
-            }
-            //Set pickup preview materials
-            if(!canDropAtCoords[1] || dropCoords[0] == dropCoords[1])
-            {
-                placementPreviews[0].SetPreview(carriedItem, PickupPreview.Prompt.r);
-                showDrop[1] = false;
-            }
-            else
-            {
-                placementPreviews[0].SetPreview(carriedItem, PickupPreview.Prompt.r);
-                placementPreviews[1].SetPreview(carriedItem, PickupPreview.Prompt.g);
-            }
-            
-            //Convert back to world space
-            for (int i = 0; i < dropCoords.Length; ++i)
-            {
-                if(i > 0 || snap)
-                {
-                    dropLocations[i] = placementGrid.CellToWorld(dropCoords[i]);
-                }
-                bool obstructionNotDetected = !Physics.CheckBox(dropLocations[i] + new Vector3(0.5f, 0.55f, 0.5f), new Vector3(0.51f, 0.475f, 0.51f), Quaternion.identity, layerMaskObstructed);
-                bool clippingNotDetected = !Physics.CheckBox(dropLocations[i] + new Vector3(0.5f, 0.55f, 0.5f), new Vector3(0.51f, 0.475f, 0.51f), Quaternion.identity, layerMaskHide);
-                bool insideOfPuzzleBounds = true;
-                if (carriedItem.puzzle != null)
-                {
-                    insideOfPuzzleBounds = carriedItem.puzzle.IsInPuzzleBoundry(dropLocations[i]);
-                }
-                if (i==0 && (!obstructionNotDetected || !clippingNotDetected)) { exception.FadeInText("NO SPACE"); }
-                if (i==0 && !insideOfPuzzleBounds) { exception.FadeInText("OUT OF BOUNDS"); }
-                canDropAtCoords[i] = canDropAtCoords[i] && obstructionNotDetected && clippingNotDetected && insideOfPuzzleBounds;
-                MaterialPropertyBlock properties = new MaterialPropertyBlock();
-                if (showDrop[i] && showPreview)
-                {
-                    placementPreviews[i].gameObject.SetActive(true);
-                    prompt.FadeInText("<b>[R]</b>Place");
-                    if (canDropAtCoords[i])
-                    {
-                        placementPreviews[i].SetValid(true);
-                        //properties.SetColor("_Color", new Color(0.7f, 0.89f, 1f, 0.75f));
-                    }
-                    else
-                    {
-                        prompt.FadeOutText();
-                        placementPreviews[i].SetValid(false);
-                        //properties.SetColor("_Color", new Color(1f, 0.89f, 0.7f, 0.75f));
-                    }
-                    placementPreviews[i].gameObject.transform.position = dropLocations[i];
-                    placementPreviews[i].gameObject.transform.rotation = Quaternion.identity;
-                    //Graphics.DrawMesh(carriedItemMesh, dropLocations[i], Quaternion.identity, carriedItemMaterial, 0, GetComponent<Camera>(), 0, properties, false);
-                }
-                else
-                {
-                    placementPreviews[i].gameObject.SetActive(false);
-                }
-            }
-            if ((Input.GetButtonDown("Drop") || (Input.GetButtonDown("DropOnStack") && !canDropAtCoords[1])) && canDropAtCoords[0])
-            {
-                DropObject(dropLocations[0], Quaternion.identity);
-            }
-            if (Input.GetButtonDown("DropOnStack") && canDropAtCoords[1])
-            {
-                DropObject(dropLocations[1], Quaternion.identity);
-            }
-        }
-        else
-        {
-            placementPreviews[0].gameObject.SetActive(false);
-            placementPreviews[1].gameObject.SetActive(false);
-            if (Input.GetButtonDown("Fire3"))
-            {
-                if (Player.singleton.myPickup.carriedObjects.Count > 0) //Don't reset anything if player is carrying boxes
-                {
-                    return;
-                }
-                Puzzle[] puzzles = FindObjectsOfType<Puzzle>();
-                Puzzle activePuzzle = null;
-                foreach (Puzzle puzzle in puzzles)
-                {
-                    if (puzzle.IsInPuzzleBoundry(Player.singleton.transform.position) == true)
-                    {
-                        activePuzzle = puzzle;
-                        break;
-                    }
-                }
-                if (activePuzzle) PuzzleSystem.ResetPuzzle(activePuzzle);
-            }
-        }
+        
         
         
 
@@ -355,6 +359,11 @@ public class Pickup : MonoBehaviour
         }
         carriedItem = lift;
         carriedObjects.Push(lift);
+        if(carriedObjects.Count == 1)
+        {
+            placementPreviews[0].transform.position = lift.transform.position;
+            placementPreviews[0].transform.rotation = lift.transform.rotation;
+        }
         boxInventoryDisplay.AddBox(lift.inventoryIcon);
         SetCarriedItemMeshMaterialAndRigidbody(lift);
         itemRigidbody.velocity = Vector3.zero;

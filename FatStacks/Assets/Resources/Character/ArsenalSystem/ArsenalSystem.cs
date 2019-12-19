@@ -110,7 +110,7 @@ public class ArsenalSystem : MonoBehaviour
             //Check keys 1-9
             for (int key = 0; key < arsenal.Length; ++key)
             {
-                if (Input.GetKeyDown(KeyCode.Alpha1 + key))
+                if (Input.GetKeyDown(KeyCode.Alpha1 + key) && arsenal[key].isInArsenal)
                 {
                     EquipGun((GunType)key);
                 }

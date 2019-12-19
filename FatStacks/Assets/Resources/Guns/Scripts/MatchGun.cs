@@ -11,6 +11,7 @@ public class MatchGun : Gun
     public UnityEvent onFailMatch;
 
     public override void fire1(Ray ray){
+        base.fire1(ray);
         RaycastHit hit_info;
         bool object_found = Physics.Raycast(ray, out hit_info, float.MaxValue, LayerMask.GetMask("Default", "InteractSolid", "Helicopter"));
         if (object_found && hit_info.transform.GetComponent<Box>() != null)

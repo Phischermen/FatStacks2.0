@@ -17,6 +17,7 @@ public class Gun : MonoBehaviour
         gunAnimator = GetComponent<Animator>();
         ammo = Mathf.Clamp(ammo, 0, gunData.ammoCapacity);
     }
+    public virtual void scan(Ray ray) { }
     public virtual void fire1(Ray ray)
     {
         gunAnimator.SetTrigger("fire");

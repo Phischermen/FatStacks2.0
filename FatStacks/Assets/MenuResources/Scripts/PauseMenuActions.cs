@@ -12,7 +12,10 @@ public class PauseMenuActions : MonoBehaviour
     {
         Player.singleton.TogglePause();
         Player.singleton.GetComponentInChildren<MouseLook>().SetSensitivity(PlayerPrefs.GetFloat("Sensitivity"));
-        Player.singleton.GetComponentInChildren<Camera>().fieldOfView = PlayerPrefs.GetFloat("FOV");
+        foreach (Camera camera in Player.singleton.GetComponentsInChildren<Camera>())
+        {
+            camera.fieldOfView = PlayerPrefs.GetFloat("FOV");
+        }
     }
 
     public void Options()

@@ -154,6 +154,7 @@ public class LockDown : MonoBehaviour
             }
             //Put Player back at start of lockdown
             Player.singleton.transform.position = resetTransform.position;
+            Player.singleton.myPickup.ClearInventory();
             //Start Lockdown again
             LockdownSystem.ShowUI(false);
             liveBoxCount = 0;

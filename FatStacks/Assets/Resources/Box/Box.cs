@@ -84,6 +84,8 @@ public class Box : MonoBehaviour
         }
     }
 
+    public MeshRenderer HighlightRenderer;
+
     void Awake()
     {
         grid = GetComponentInParent<Grid>();
@@ -371,5 +373,8 @@ public class Box : MonoBehaviour
         transform.position = _grid.CellToWorld(_grid.WorldToCell(transform.position));
     }
 
-    
+    public void Highlight(bool highlight = true)
+    {
+        HighlightRenderer.enabled = highlight;
+    }
 }

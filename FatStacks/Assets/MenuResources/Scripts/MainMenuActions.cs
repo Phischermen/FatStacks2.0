@@ -8,12 +8,12 @@ public class MainMenuActions : MonoBehaviour
     public string startLevel;
     public string artTestLevel;
     public GameObject settingsMenu;
-    public MusicTrack theme;
+    //public MusicTrack theme;
 
     public void StartClicked()
     {
         SceneManager.LoadScene(startLevel);
-        MusicManager.singleton.QueueUpNextTrack(theme);
+        //MusicManager.singleton.QueueUpNextTrack(theme);
     }
 
     public void ArtTestClicked()

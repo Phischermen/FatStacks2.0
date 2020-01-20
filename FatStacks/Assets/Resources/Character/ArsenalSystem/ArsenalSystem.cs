@@ -120,18 +120,18 @@ public class ArsenalSystem : MonoBehaviour
 
     void FixedUpdate()
     {
+        Ray ray = new Ray(transform.parent.position, transform.parent.rotation * Vector3.forward);
+        equippedGun?.scan(ray);
         canFire = (equippedGunIndex != (int)GunType.none && equippedGun?.canFire() == true && Cursor.lockState == CursorLockMode.Locked && Player.singleton.UI.activeSelf);
         if (canFire)
         {
             if (fire1)
             {
-                Ray ray = new Ray(transform.parent.position, transform.parent.rotation * Vector3.forward);
                 equippedGun.fire1(ray);
                 fire1 = false;
             }
             if (fire2)
             {
-                Ray ray = new Ray(transform.parent.position, transform.parent.rotation * Vector3.forward);
                 equippedGun.fire2(ray);
                 fire2 = false;
             }

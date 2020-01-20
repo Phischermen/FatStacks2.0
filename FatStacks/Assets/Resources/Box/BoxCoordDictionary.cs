@@ -5,6 +5,7 @@ using UnityEngine;
 public class BoxCoordDictionary : MonoBehaviour
 {
     Dictionary<Vector3Int, HashSet<GameObject>> _Dictionary = new Dictionary<Vector3Int, HashSet<GameObject>>();
+    static public bool matchgunNeedsUpdate;
 
     public void Add(Vector3Int coord, GameObject obj)
     {
@@ -17,7 +18,7 @@ public class BoxCoordDictionary : MonoBehaviour
             _Dictionary.Add(coord, new HashSet<GameObject>());
             _Dictionary[coord].Add(obj);
         }
-
+        matchgunNeedsUpdate = true;
     }
 
     public GameObject[] Get(Vector3Int coord)
@@ -46,5 +47,6 @@ public class BoxCoordDictionary : MonoBehaviour
                 _Dictionary.Remove(coord);
             }
         }
+        matchgunNeedsUpdate = true;
     }
 }

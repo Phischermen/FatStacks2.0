@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6378777854899151400}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.17, y: -0.47, z: 17.84}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1269816080111875826}
@@ -84,6 +84,9 @@ MonoBehaviour:
   gun: 0
   ammo: 100
   logEntry: Obtained the <b><color=green>Match</color> <color=blue>Gun</color></b>
+  onPickup:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &6528153945427153003
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,7 +114,7 @@ Transform:
   m_GameObject: {fileID: 6528153945427153003}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 8748738346529558991}
   m_RootOrder: 0
@@ -123,7 +126,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6528153945427153003}
-  m_Mesh: {fileID: 2582660765178323456, guid: c61b62c97ddfe3448a40f10468e4ba36, type: 3}
+  m_Mesh: {fileID: 2582660765178323456, guid: a765f8b4196686b4a8bfe1de338f833b, type: 3}
 --- !u!23 &6827837494664095584
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -141,7 +144,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 170949b2c95d8a749811011e8695875d, type: 2}
+  - {fileID: 2100000, guid: 5f2c8ca7523a1e54ab225544951fad2b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

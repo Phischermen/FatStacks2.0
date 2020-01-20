@@ -950,7 +950,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 921187953}
         m_MethodName: FieldOfViewChanged
-        m_Mode: 0
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1263,7 +1263,6 @@ MonoBehaviour:
   startLevel: Level1
   artTestLevel: Art Test
   settingsMenu: {fileID: 921187948}
-  theme: {fileID: 11400000, guid: 6cb05d4ad247c254b9829274f7d418de, type: 2}
 --- !u!1 &680367408
 GameObject:
   m_ObjectHideFlags: 0
@@ -1355,7 +1354,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 921187953}
         m_MethodName: SensitivityChanged
-        m_Mode: 0
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2474,7 +2473,7 @@ MonoBehaviour:
   InMemory: {fileID: 860411447}
   DinoDecaf: {fileID: 1147049092}
   Logo: {fileID: 165829939}
-  drum: {fileID: 11400000, guid: 527b42a363fe107469f6451c6d8c655a, type: 2}
+  crickets: {fileID: 11400000, guid: 6831f17175d9f024dac005b248479405, type: 2}
 --- !u!114 &1234445005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2599,6 +2598,7 @@ MonoBehaviour:
   amount: 1
   isFinite: 0
   seed: 0
+  originalAmount: 0
 --- !u!4 &1366497159
 Transform:
   m_ObjectHideFlags: 0
@@ -3497,6 +3497,7 @@ MonoBehaviour:
   amount: 1
   isFinite: 0
   seed: 0
+  originalAmount: 0
 --- !u!4 &2061546624
 Transform:
   m_ObjectHideFlags: 0

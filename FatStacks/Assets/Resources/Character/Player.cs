@@ -298,7 +298,7 @@ public class Player : MonoBehaviour
         }
         //Update health bar
         //HealthBar.fillAmount = Mathf.Lerp(HealthBar.fillAmount, Health / 100f, 0.1f);
-        HealthText.text = healthManager.health.ToString();
+        //HealthText.text = healthManager.health.ToString();
     }
 
     private void FixedUpdate()

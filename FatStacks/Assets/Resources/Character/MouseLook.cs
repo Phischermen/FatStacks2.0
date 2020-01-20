@@ -11,7 +11,10 @@ public class MouseLook : MonoBehaviour
 
     void Start()
     {
-        GetComponent<Camera>().fieldOfView = PlayerPrefs.GetFloat("FOV");
+        foreach (Camera camera in Player.singleton.GetComponentsInChildren<Camera>())
+        {
+            camera.fieldOfView = PlayerPrefs.GetFloat("FOV");
+        }
         SetSensitivity(PlayerPrefs.GetFloat("Sensitivity"));
         character = GetComponentInParent<Player>();
         if (Player.firstSpawnInScene)

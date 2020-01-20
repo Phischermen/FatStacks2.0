@@ -2234,7 +2234,7 @@ PrefabInstance:
     - target: {fileID: 8142183490823266264, guid: 081fee79adca1eb49a8910fd27c5d86e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8142183490823266264, guid: 081fee79adca1eb49a8910fd27c5d86e,
         type: 3}
@@ -2586,6 +2586,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlueCrate (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2028147927266663084, guid: e2bd5d2845625f54ebf069bce018117f,
+        type: 3}
+      propertyPath: _frozen
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2139795388641659656, guid: e2bd5d2845625f54ebf069bce018117f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2640,11 +2645,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.35700002
-      objectReference: {fileID: 0}
-    - target: {fileID: 2028147927266663084, guid: e2bd5d2845625f54ebf069bce018117f,
-        type: 3}
-      propertyPath: _frozen
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2bd5d2845625f54ebf069bce018117f, type: 3}
@@ -3608,78 +3608,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9db34598a9bc8f24e9d24f031948f577, type: 3}
---- !u!1001 &2142975727
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4188065484143581315, guid: 04a5001894e9494448068acffdce83af,
-        type: 3}
-      propertyPath: m_Name
-      value: ConversationTrigger
-      objectReference: {fileID: 0}
-    - target: {fileID: 4188065484143581316, guid: 04a5001894e9494448068acffdce83af,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 3.4249628
-      objectReference: {fileID: 0}
-    - target: {fileID: 4188065484143581316, guid: 04a5001894e9494448068acffdce83af,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.586
-      objectReference: {fileID: 0}
-    - target: {fileID: 4188065484143581316, guid: 04a5001894e9494448068acffdce83af,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -4.3910193
-      objectReference: {fileID: 0}
-    - target: {fileID: 4188065484143581316, guid: 04a5001894e9494448068acffdce83af,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4188065484143581316, guid: 04a5001894e9494448068acffdce83af,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4188065484143581316, guid: 04a5001894e9494448068acffdce83af,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4188065484143581316, guid: 04a5001894e9494448068acffdce83af,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4188065484143581316, guid: 04a5001894e9494448068acffdce83af,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4188065484143581316, guid: 04a5001894e9494448068acffdce83af,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4188065484143581316, guid: 04a5001894e9494448068acffdce83af,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4188065484143581316, guid: 04a5001894e9494448068acffdce83af,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4188065484143581312, guid: 04a5001894e9494448068acffdce83af,
-        type: 3}
-      propertyPath: conversation
-      value: 
-      objectReference: {fileID: 11400000, guid: 6d4aaa7a94076a947a431e94ab87c9ec,
-        type: 2}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 04a5001894e9494448068acffdce83af, type: 3}

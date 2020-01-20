@@ -19,6 +19,8 @@ public class Pickup : MonoBehaviour
     public float distanceMin = 2;
     public float distanceMax = 5;
 
+    List<Box> highlightedBoxs;
+
     public bool snap;
     public bool showPreview;
     Vector3Int[] dropCoords = new Vector3Int[2];
@@ -227,6 +229,7 @@ public class Pickup : MonoBehaviour
                         case "Liftable":
                             nextState = PickupState.pickupObjectTargeted;
                             targetedItemBox = targetedObject.GetComponent<Box>();
+                            //HighlightGroup();
                             busy = false;
                             break;
                         default:
@@ -262,6 +265,7 @@ public class Pickup : MonoBehaviour
             case PickupState.pickupObjectTargeted:
                 if (PickupTargetLost(objectFound, hitInfo))
                 {
+                    //UnHighlightGroup();
                     LoseTarget();
                 }
                 else
@@ -437,4 +441,35 @@ public class Pickup : MonoBehaviour
         prompt.FadeOutText();
         currentPickupState = PickupState.noObjectTargeted;
     }
+
+    public void ClearInventory()
+    {
+        foreach(Box box in carriedObjects)
+        {
+            Destroy(box.gameObject);
+        }
+        carriedObjects.Clear();
+        foreach(GameObject display in boxInventoryDisplay.inventory)
+        {
+            Destroy(display);
+        }
+        boxInventoryDisplay.inventory.Clear();
+    }
+
+    //private void HighlightGroup()
+    //{
+    //    highlightedBoxs = targetedItemBox.GetMatchingNeighbors();
+    //    foreach (Box box in highlightedBoxs)
+    //    {
+    //        box.Highlight();
+    //    }
+    //}
+
+    //private void UnHighlightGroup()
+    //{
+    //    foreach (Box box in highlightedBoxs)
+    //    {
+    //        box.Highlight(false);
+    //    }
+    //}
 }

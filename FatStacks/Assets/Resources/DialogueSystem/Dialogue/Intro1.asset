@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a987eb83e60df45bac4639f0d9af4b, type: 3}
   m_Name: Intro1
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 75293c4d8a1fb26459d7bcf03583f3e3, type: 3}
   dialogue: Ross, can you hear me?
   clip: {fileID: 8300000, guid: 61b7b41969d724542bb3b0970e8f2891, type: 3}
   pause: 0.5

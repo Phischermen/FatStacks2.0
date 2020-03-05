@@ -11,9 +11,4 @@ public class WinScreenScripts : MonoBehaviour
     {
         SceneManager.LoadScene(scene);
     }
-
-    public void Quit()
-    {
-        Application.Quit();
-    }
 }

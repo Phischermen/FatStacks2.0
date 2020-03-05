@@ -23,7 +23,11 @@ public class MakeParticlesTrackToPlayer : MonoBehaviour
 
     void Update()
     {
-
+        if (target == null)
+        {
+            Destroy(this);
+            return;
+        }
         particles = new ParticleSystem.Particle[p.particleCount];
 
         p.GetParticles(particles);

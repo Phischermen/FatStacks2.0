@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a987eb83e60df45bac4639f0d9af4b, type: 3}
   m_Name: Reset5
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 1214c85fb6c71a0498a692cf4fd90009, type: 3}
   dialogue: Nice. How do I do that?
   clip: {fileID: 8300000, guid: 5c5092c5b0c22344eb5ffd0dccc4e96d, type: 3}
   pause: 0.1

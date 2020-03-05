@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Reset4
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 04c303a1d91bb274db27366ad3dcdd1a, type: 3}
-  dialogue: No worries. I can easily send the boxes back to you in their original
-    locations. That gives you a second chance to loot even more boxes, and uncover
-    the key.
+  dialogue: No worries. I can send the boxes back to you. That gives you a second
+    chance to uncover the key.
   clip: {fileID: 8300000, guid: d0b69c78b5e45384a9fe9cac01a39487, type: 3}
   pause: 0.1

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Work
   m_EditorClassIdentifier: 
   dialogue:
-  - {fileID: 11400000, guid: 7833d48f2bd05c244993082a416b5ea0, type: 2}
+  - {fileID: 11400000, guid: 42bc94dba77459a44a4835c9bb876a2d, type: 2}
   - {fileID: 11400000, guid: 8f7359f223182d240be8460b002e7160, type: 2}
   - {fileID: 11400000, guid: a8e9c539fdd3c024091c3d0d2ff178c7, type: 2}
   - {fileID: 11400000, guid: a348506aa68201d4cb3f01d9f8dac008, type: 2}

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a987eb83e60df45bac4639f0d9af4b, type: 3}
   m_Name: FrontDoorLocked
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 68fb4235b804ef641b1939ab427d2685, type: 3}
   dialogue: The front door is locked. Naturally. Hop the <color=yellow>fence</color>
     and get in from a window or something.
   clip: {fileID: 8300000, guid: f1e941b8fec290d4097f9ce5382b0ac5, type: 3}

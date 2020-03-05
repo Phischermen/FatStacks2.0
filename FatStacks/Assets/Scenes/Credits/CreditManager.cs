@@ -19,9 +19,11 @@ public class CreditManager : MonoBehaviour
     public RectTransform rectTransform;
     public float speed;
 
+    public MusicTrack creditsMusic;
     // Start is called before the first frame update
     IEnumerator Start()
     {
+        MusicManager.singleton.PlayTrack(creditsMusic);
         foreach (Credit credit in Credits)
         {
             text.text += string.Format("<size=30>{0}</size>\n{1}\n\n", credit.title, credit.name);
